@@ -87,6 +87,12 @@
             <artifactId>ruoyi-demo</artifactId>
         </dependency>
 
+        <!--  VIP模块  -->
+        <dependency>
+            <groupId>org.dromara</groupId>
+            <artifactId>ruoyi-vip</artifactId>
+        </dependency>
+
         <!--  工作流模块  -->
         <dependency>
             <groupId>org.dromara</groupId>
