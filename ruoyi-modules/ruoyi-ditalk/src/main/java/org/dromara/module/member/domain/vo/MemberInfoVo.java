@@ -175,7 +175,7 @@ public class MemberInfoVo implements Serializable {
      * 开放状态
      */
     @ExcelProperty(value = "开放状态", converter = ExcelDictConvert.class)
-    @ExcelDictFormat(dictType = "member_open_state")
+    @ExcelDictFormat(dictType = "ditalk_member_open_state")
     private String openState;
 
     /**
