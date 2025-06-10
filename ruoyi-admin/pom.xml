@@ -90,7 +90,7 @@
         <!--  VIP模块  -->
         <dependency>
             <groupId>org.dromara</groupId>
-            <artifactId>ruoyi-vip</artifactId>
+            <artifactId>ruoyi-ditalk</artifactId>
         </dependency>
 
         <!--  工作流模块  -->

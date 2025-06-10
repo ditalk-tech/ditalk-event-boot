@@ -353,7 +353,7 @@
 
             <dependency>
                 <groupId>org.dromara</groupId>
-                <artifactId>ruoyi-vip</artifactId>
+                <artifactId>ruoyi-ditalk</artifactId>
                 <version>${revision}</version>
             </dependency>
 
