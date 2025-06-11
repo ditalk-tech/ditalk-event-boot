@@ -74,7 +74,7 @@ public class NewsInfoServiceImpl implements INewsInfoService {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<NewsInfo> lqw = Wrappers.lambdaQuery();
         lqw.eq(bo.getId() != null, NewsInfo::getId, bo.getId());
-        lqw.orderByAsc(NewsInfo::getId);
+        lqw.orderByDesc(NewsInfo::getId);
         lqw.between(params.get("beginCreateTime") != null && params.get("endCreateTime") != null,
             NewsInfo::getCreateTime ,params.get("beginCreateTime"), params.get("endCreateTime"));
         lqw.eq(StringUtils.isNotBlank(bo.getState()), NewsInfo::getState, bo.getState());
