@@ -1,24 +1,26 @@
 package org.dromara.module.contact.service.impl;
 
-import org.dromara.common.core.utils.MapstructUtils;
-import org.dromara.common.core.utils.StringUtils;
-import org.dromara.common.mybatis.core.page.TableDataInfo;
-import org.dromara.common.mybatis.core.page.PageQuery;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import org.dromara.common.core.utils.MapstructUtils;
+import org.dromara.common.core.utils.SpringUtils;
+import org.dromara.common.core.utils.StringUtils;
+import org.dromara.common.mybatis.core.page.IdPageQuery;
+import org.dromara.common.mybatis.core.page.PageQuery;
+import org.dromara.common.mybatis.core.page.TableDataInfo;
+import org.dromara.module.contact.domain.ContactInfo;
 import org.dromara.module.contact.domain.bo.ContactInfoBo;
 import org.dromara.module.contact.domain.vo.ContactInfoVo;
-import org.dromara.module.contact.domain.ContactInfo;
 import org.dromara.module.contact.mapper.ContactInfoMapper;
 import org.dromara.module.contact.service.IContactInfoService;
+import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Collection;
 
 /**
  * 联系人Service业务层处理
@@ -137,7 +139,18 @@ public class ContactInfoServiceImpl implements IContactInfoService {
     }
 
     /**
-     * 校验并批量删除联系人信息
+     * 删除配置信息
+     *
+     * @param id 主键
+     * @return 是否删除成功
+     */
+    @Override
+    public Boolean deleteById(Long id) {
+        return baseMapper.deleteById(id) > 0;
+    }
+
+    /**
+     * 校验并批量删除配置信息信息
      *
      * @param ids     待删除的主键集合
      * @param isValid 是否进行有效性校验
@@ -145,9 +158,28 @@ public class ContactInfoServiceImpl implements IContactInfoService {
      */
     @Override
     public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {
+        Boolean flag = true;
         if(isValid){
             //TODO 做一些业务上的校验,判断是否需要校验
         }
-        return baseMapper.deleteByIds(ids) > 0;
+        for(Long id : ids) {
+            flag = flag && SpringUtils.getAopProxy(this).deleteById(id);
+        }
+        return flag;
+    }
+
+    /**
+     * 通过ID分页查询配置信息列表
+     *
+     * @param bo 查询条件
+     * @return 配置信息列表
+     */
+    @Override
+    public List<ContactInfoVo> queryList(ContactInfoBo bo, IdPageQuery pageQuery) {
+        LambdaQueryWrapper<ContactInfo> lqw = Wrappers.lambdaQuery();
+        lqw.lt(pageQuery.getId() != null, ContactInfo::getId, pageQuery.getId());
+        lqw.orderByDesc(ContactInfo::getId);
+        lqw.eq(StringUtils.isNotBlank(bo.getState()), ContactInfo::getState, bo.getState());
+        return baseMapper.selectVoList(pageQuery.build(lqw));
     }
 }

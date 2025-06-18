@@ -1,24 +1,26 @@
 package org.dromara.module.member.service.impl;
 
-import org.dromara.common.core.utils.MapstructUtils;
-import org.dromara.common.core.utils.StringUtils;
-import org.dromara.common.mybatis.core.page.TableDataInfo;
-import org.dromara.common.mybatis.core.page.PageQuery;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import org.dromara.common.core.utils.MapstructUtils;
+import org.dromara.common.core.utils.SpringUtils;
+import org.dromara.common.core.utils.StringUtils;
+import org.dromara.common.mybatis.core.page.IdPageQuery;
+import org.dromara.common.mybatis.core.page.PageQuery;
+import org.dromara.common.mybatis.core.page.TableDataInfo;
+import org.dromara.module.member.domain.MemberOpenid;
 import org.dromara.module.member.domain.bo.MemberOpenidBo;
 import org.dromara.module.member.domain.vo.MemberOpenidVo;
-import org.dromara.module.member.domain.MemberOpenid;
 import org.dromara.module.member.mapper.MemberOpenidMapper;
 import org.dromara.module.member.service.IMemberOpenidService;
+import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Collection;
 
 /**
  * 会员OpenIdService业务层处理
@@ -123,7 +125,18 @@ public class MemberOpenidServiceImpl implements IMemberOpenidService {
     }
 
     /**
-     * 校验并批量删除会员OpenId信息
+     * 删除配置信息
+     *
+     * @param id 主键
+     * @return 是否删除成功
+     */
+    @Override
+    public Boolean deleteById(Long id) {
+        return baseMapper.deleteById(id) > 0;
+    }
+
+    /**
+     * 校验并批量删除配置信息信息
      *
      * @param ids     待删除的主键集合
      * @param isValid 是否进行有效性校验
@@ -131,10 +144,29 @@ public class MemberOpenidServiceImpl implements IMemberOpenidService {
      */
     @Override
     public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {
+        Boolean flag = true;
         if(isValid){
             //TODO 做一些业务上的校验,判断是否需要校验
         }
-        return baseMapper.deleteByIds(ids) > 0;
+        for(Long id : ids) {
+            flag = flag && SpringUtils.getAopProxy(this).deleteById(id);
+        }
+        return flag;
+    }
+
+    /**
+     * 通过ID分页查询配置信息列表
+     *
+     * @param bo 查询条件
+     * @return 配置信息列表
+     */
+    @Override
+    public List<MemberOpenidVo> queryList(MemberOpenidBo bo, IdPageQuery pageQuery) {
+        LambdaQueryWrapper<MemberOpenid> lqw = Wrappers.lambdaQuery();
+        lqw.lt(pageQuery.getId() != null, MemberOpenid::getId, pageQuery.getId());
+        lqw.orderByDesc(MemberOpenid::getId);
+        lqw.eq(StringUtils.isNotBlank(bo.getState()), MemberOpenid::getState, bo.getState());
+        return baseMapper.selectVoList(pageQuery.build(lqw));
     }
 
     @Override

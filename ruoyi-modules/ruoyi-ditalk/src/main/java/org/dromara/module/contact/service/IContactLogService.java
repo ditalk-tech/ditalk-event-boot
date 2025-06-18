@@ -1,9 +1,14 @@
 package org.dromara.module.contact.service;
 
-import org.dromara.module.contact.domain.vo.ContactLogVo;
-import org.dromara.module.contact.domain.bo.ContactLogBo;
-import org.dromara.common.mybatis.core.page.TableDataInfo;
+import com.baomidou.dynamic.datasource.annotation.DSTransactional;
+import org.dromara.common.constant.CacheNames;
+import org.dromara.common.mybatis.core.page.IdPageQuery;
 import org.dromara.common.mybatis.core.page.PageQuery;
+import org.dromara.common.mybatis.core.page.TableDataInfo;
+import org.dromara.module.contact.domain.bo.ContactLogBo;
+import org.dromara.module.contact.domain.vo.ContactLogVo;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.Collection;
 import java.util.List;
@@ -22,6 +27,7 @@ public interface IContactLogService {
      * @param id 主键
      * @return 联系记录
      */
+    @Cacheable(cacheNames = CacheNames.ContactLog, key = "#id")
     ContactLogVo queryById(Long id);
 
     /**
@@ -55,14 +61,33 @@ public interface IContactLogService {
      * @param bo 联系记录
      * @return 是否修改成功
      */
+    @CacheEvict(cacheNames = CacheNames.ContactLog, key = "#bo.id")
     Boolean updateByBo(ContactLogBo bo);
 
     /**
-     * 校验并批量删除联系记录信息
+     * 删除配置信息
+     *
+     * @param id 主键
+     * @return 是否删除成功
+     */
+    @CacheEvict(cacheNames = CacheNames.ContactLog, key = "#id")
+    Boolean deleteById(Long id);
+
+    /**
+     * 校验并批量删除配置信息信息
      *
      * @param ids     待删除的主键集合
      * @param isValid 是否进行有效性校验
      * @return 是否删除成功
      */
+    @DSTransactional
     Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid);
+
+    /**
+     * 通过ID分页查询配置信息列表
+     *
+     * @param bo 查询条件
+     * @return 配置信息列表
+     */
+    List<ContactLogVo> queryList(ContactLogBo bo, IdPageQuery pageQuery);
 }
