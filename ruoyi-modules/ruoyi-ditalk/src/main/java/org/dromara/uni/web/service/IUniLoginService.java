@@ -10,5 +10,10 @@ public interface IUniLoginService {
 
     void checkTenant(@NotBlank String tenantId);
 
+    /**
+     * 注册，如果账号已存在直接返回不做操作
+     *
+     * @param registerBo 注册信息
+     */
     void uniRegister(UniRegisterBo registerBo);
 }

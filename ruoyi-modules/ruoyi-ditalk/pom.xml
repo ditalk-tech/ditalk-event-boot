@@ -15,12 +15,6 @@
         VIP模块
     </description>
 
-    <properties>
-        <weixin-java-miniapp-version>4.6.0</weixin-java-miniapp-version>
-        <weixin-java-mp-version>4.6.0</weixin-java-mp-version>
-        <weixin-java-pay-version>4.6.0</weixin-java-pay-version>
-    </properties>
-
     <dependencies>
 
         <!-- Mysql驱动包 -->
@@ -134,36 +128,6 @@
         <dependency>
             <groupId>org.dromara</groupId>
             <artifactId>ruoyi-common-websocket</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-miniapp</artifactId>
-            <version>${weixin-java-miniapp-version}</version>
-            <!-- ruoyi-common-excel 冲突，前者版太低 -->
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-io</artifactId>
-                    <groupId>commons-io</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-mp</artifactId>
-            <version>${weixin-java-mp-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-pay</artifactId>
-            <version>${weixin-java-pay-version}</version>
-            <!-- ruoyi-common-excel 冲突，前者版太低 -->
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-io</artifactId>
-                    <groupId>commons-io</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
     </dependencies>

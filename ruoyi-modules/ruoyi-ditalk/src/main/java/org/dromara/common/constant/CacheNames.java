@@ -18,10 +18,7 @@ public interface CacheNames {
 
     String PREFIX = "DOMAIN_";
 
-    /**
-     *
-     */
-    String ConfigInfo = PREFIX + "ConfigInfo#7d";
-
+    String ConfigInfo = PREFIX + "ConfigInfo#30d";
+    String UniAuthConfig = PREFIX + "UniAuthConfig#90d";
 
 }
