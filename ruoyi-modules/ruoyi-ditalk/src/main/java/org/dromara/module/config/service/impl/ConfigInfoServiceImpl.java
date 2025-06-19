@@ -1,5 +1,6 @@
 package org.dromara.module.config.service.impl;
 
+import org.dromara.common.constant.CacheNames;
 import org.dromara.common.mybatis.core.page.IdPageQuery;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.StringUtils;
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.common.redis.utils.CacheUtils;
 import org.springframework.stereotype.Service;
 import org.dromara.module.config.domain.bo.ConfigInfoBo;
 import org.dromara.module.config.domain.vo.ConfigInfoVo;
@@ -112,6 +114,9 @@ public class ConfigInfoServiceImpl implements IConfigInfoService {
     @Override
     public Boolean updateByBo(ConfigInfoBo bo) {
         ConfigInfo update = MapstructUtils.convert(bo, ConfigInfo.class);
+        if (StringUtils.isNotBlank(update.getCode())) {
+            CacheUtils.evict(CacheNames.ConfigInfo_Code, update.getCode());
+        }
         validEntityBeforeSave(update);
         return baseMapper.updateById(update) > 0;
     }
@@ -131,6 +136,7 @@ public class ConfigInfoServiceImpl implements IConfigInfoService {
      */
     @Override
     public Boolean deleteById(Long id) {
+        CacheUtils.evict(CacheNames.ConfigInfo_Code, baseMapper.selectById(id).getCode());
         return baseMapper.deleteById(id) > 0;
     }
 
@@ -169,9 +175,9 @@ public class ConfigInfoServiceImpl implements IConfigInfoService {
     }
 
     @Override
-    public ConfigInfoVo queryOneByKey(String key) {
+    public ConfigInfoVo queryOneByCode(String code) {
         LambdaQueryWrapper<ConfigInfo> lqw = Wrappers.lambdaQuery();
-        lqw.eq(ConfigInfo::getCode, key);
+        lqw.eq(ConfigInfo::getCode, code);
         return baseMapper.selectVoOne(lqw);
     }
 

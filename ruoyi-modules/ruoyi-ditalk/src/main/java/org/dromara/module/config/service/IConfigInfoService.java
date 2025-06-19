@@ -91,6 +91,6 @@ public interface IConfigInfoService {
      */
     List<ConfigInfoVo> queryList(ConfigInfoBo bo, IdPageQuery pageQuery);
 
-    @Cacheable(cacheNames = CacheNames.ConfigInfo_Key, key = "#key")
-    ConfigInfoVo queryOneByKey(String key);
+    @Cacheable(cacheNames = CacheNames.ConfigInfo_Code, key = "#code")
+    ConfigInfoVo queryOneByCode(String code);
 }

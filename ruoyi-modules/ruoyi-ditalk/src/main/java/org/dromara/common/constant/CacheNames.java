@@ -16,7 +16,7 @@ package org.dromara.common.constant;
  */
 public interface CacheNames {
 
-    String PREFIX = "DOMAIN_";
+    String PREFIX = "DOMAIN:";
 
     String ConfigInfo = PREFIX + "ConfigInfo#7d";
     String UniAuthConfig = PREFIX + "UniAuthConfig#7d";
@@ -26,5 +26,6 @@ public interface CacheNames {
     String ContactTags = PREFIX + "ContactTags#7d";
     String ContactLog = PREFIX + "ContactLog#7d";
     String ContactInfo = PREFIX + "ContactInfo#7d";
+    String ConfigInfo_Code = PREFIX + "ConfigInfo_Code#7d";
     String ContactCommonTags = PREFIX + "ContactCommonTags#7d";
 }
