@@ -52,7 +52,7 @@ public class ConfigInfo extends TenantEntity {
     /**
      * 配置项键
      */
-    private String key;
+    private String code;
 
     /**
      * 配置项JSON值

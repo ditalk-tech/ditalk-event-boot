@@ -42,7 +42,7 @@ public class ConfigInfoServiceImpl implements IConfigInfoService {
      * @return 配置信息
      */
     @Override
-    public ConfigInfoVo queryById(Long id){
+    public ConfigInfoVo queryById(Long id) {
         return baseMapper.selectVoById(id);
     }
 
@@ -78,10 +78,10 @@ public class ConfigInfoServiceImpl implements IConfigInfoService {
         lqw.eq(bo.getId() != null, ConfigInfo::getId, bo.getId());
         lqw.orderByDesc(ConfigInfo::getId);
         lqw.between(params.get("beginCreateTime") != null && params.get("endCreateTime") != null,
-            ConfigInfo::getCreateTime ,params.get("beginCreateTime"), params.get("endCreateTime"));
+            ConfigInfo::getCreateTime, params.get("beginCreateTime"), params.get("endCreateTime"));
         lqw.eq(StringUtils.isNotBlank(bo.getState()), ConfigInfo::getState, bo.getState());
         lqw.like(StringUtils.isNotBlank(bo.getName()), ConfigInfo::getName, bo.getName());
-        lqw.eq(StringUtils.isNotBlank(bo.getKey()), ConfigInfo::getKey, bo.getKey());
+        lqw.eq(StringUtils.isNotBlank(bo.getCode()), ConfigInfo::getCode, bo.getCode());
         lqw.eq(StringUtils.isNotBlank(bo.getValue()), ConfigInfo::getValue, bo.getValue());
         return lqw;
     }
@@ -119,7 +119,7 @@ public class ConfigInfoServiceImpl implements IConfigInfoService {
     /**
      * 保存前的数据校验
      */
-    private void validEntityBeforeSave(ConfigInfo entity){
+    private void validEntityBeforeSave(ConfigInfo entity) {
         //TODO 做一些数据校验,如唯一约束
     }
 
@@ -144,10 +144,10 @@ public class ConfigInfoServiceImpl implements IConfigInfoService {
     @Override
     public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {
         Boolean flag = true;
-        if(isValid){
+        if (isValid) {
             //TODO 做一些业务上的校验,判断是否需要校验
         }
-        for(Long id : ids) {
+        for (Long id : ids) {
             flag = flag && SpringUtils.getAopProxy(this).deleteById(id);
         }
         return flag;
@@ -166,6 +166,13 @@ public class ConfigInfoServiceImpl implements IConfigInfoService {
         lqw.orderByDesc(ConfigInfo::getId);
         lqw.eq(StringUtils.isNotBlank(bo.getState()), ConfigInfo::getState, bo.getState());
         return baseMapper.selectVoList(pageQuery.build(lqw));
+    }
+
+    @Override
+    public ConfigInfoVo queryOneByKey(String key) {
+        LambdaQueryWrapper<ConfigInfo> lqw = Wrappers.lambdaQuery();
+        lqw.eq(ConfigInfo::getCode, key);
+        return baseMapper.selectVoOne(lqw);
     }
 
 }

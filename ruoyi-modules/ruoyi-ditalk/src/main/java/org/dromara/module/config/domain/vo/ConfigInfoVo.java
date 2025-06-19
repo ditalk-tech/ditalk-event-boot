@@ -63,7 +63,7 @@ public class ConfigInfoVo implements Serializable {
      * 配置项键
      */
     @ExcelProperty(value = "配置项键")
-    private String key;
+    private String code;
 
     /**
      * 配置项JSON值

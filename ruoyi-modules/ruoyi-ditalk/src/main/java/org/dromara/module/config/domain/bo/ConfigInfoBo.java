@@ -48,7 +48,7 @@ public class ConfigInfoBo extends BaseEntity {
      * 配置项键
      */
     @NotBlank(message = "配置项键不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String key;
+    private String code;
 
     /**
      * 配置项JSON值

@@ -90,4 +90,7 @@ public interface IConfigInfoService {
      * @return 配置信息列表
      */
     List<ConfigInfoVo> queryList(ConfigInfoBo bo, IdPageQuery pageQuery);
+
+    @Cacheable(cacheNames = CacheNames.ConfigInfo_Key, key = "#key")
+    ConfigInfoVo queryOneByKey(String key);
 }
