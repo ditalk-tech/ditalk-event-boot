@@ -2,6 +2,7 @@ package org.dromara.uni.web.domain.bo;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serial;
 
@@ -12,6 +13,7 @@ import java.io.Serial;
  * @date 2023-12-28
  */
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class UniRegisterBo extends UniLoginBo {
 
     @Serial
