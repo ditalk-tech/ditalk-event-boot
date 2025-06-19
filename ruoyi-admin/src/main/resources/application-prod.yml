@@ -124,7 +124,7 @@ redisson:
   # 单节点配置
   singleServerConfig:
     # 客户端名称 不能用中文
-    clientName: RuoYi-Vue-Plus
+    clientName: DiTalk-Event-Boot
     # 最小空闲连接数
     connectionMinimumIdleSize: 32
     # 连接池大小

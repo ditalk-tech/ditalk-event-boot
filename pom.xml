@@ -8,9 +8,9 @@
     <artifactId>ruoyi-vue-plus</artifactId>
     <version>${revision}</version>
 
-    <name>RuoYi-Vue-Plus</name>
-    <url>https://gitee.com/dromara/RuoYi-Vue-Plus</url>
-    <description>Dromara RuoYi-Vue-Plus多租户管理系统</description>
+    <name>DiTalk-Event-Boot</name>
+    <url>https://gitee.com/ditalk/ditalk-event-boot</url>
+    <description>DiTalk 活动管理系统</description>
 
     <properties>
         <revision>5.4.0</revision>
