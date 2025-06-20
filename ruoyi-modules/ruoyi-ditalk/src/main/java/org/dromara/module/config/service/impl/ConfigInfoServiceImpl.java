@@ -1,28 +1,32 @@
 package org.dromara.module.config.service.impl;
 
-import org.dromara.common.constant.CacheNames;
-import org.dromara.common.mybatis.core.page.IdPageQuery;
-import org.dromara.common.core.utils.MapstructUtils;
-import org.dromara.common.core.utils.StringUtils;
-import org.dromara.common.core.utils.SpringUtils;
-import org.dromara.common.mybatis.core.page.TableDataInfo;
-import org.dromara.common.mybatis.core.page.PageQuery;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.common.constant.CacheNames;
+import org.dromara.common.core.utils.MapstructUtils;
+import org.dromara.common.core.utils.SpringUtils;
+import org.dromara.common.core.utils.StringUtils;
+import org.dromara.common.mybatis.core.page.IdPageQuery;
+import org.dromara.common.mybatis.core.page.PageQuery;
+import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.redis.utils.CacheUtils;
-import org.springframework.stereotype.Service;
+import org.dromara.module.config.domain.ConfigInfo;
 import org.dromara.module.config.domain.bo.ConfigInfoBo;
 import org.dromara.module.config.domain.vo.ConfigInfoVo;
-import org.dromara.module.config.domain.ConfigInfo;
 import org.dromara.module.config.mapper.ConfigInfoMapper;
 import org.dromara.module.config.service.IConfigInfoService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Collection;
 
 /**
  * 配置信息Service业务层处理
@@ -44,6 +48,7 @@ public class ConfigInfoServiceImpl implements IConfigInfoService {
      * @return 配置信息
      */
     @Override
+    @Cacheable(cacheNames = CacheNames.ConfigInfo, key = "#id")
     public ConfigInfoVo queryById(Long id) {
         return baseMapper.selectVoById(id);
     }
@@ -112,6 +117,7 @@ public class ConfigInfoServiceImpl implements IConfigInfoService {
      * @return 是否修改成功
      */
     @Override
+    @CacheEvict(cacheNames = CacheNames.ConfigInfo, key = "#bo.id")
     public Boolean updateByBo(ConfigInfoBo bo) {
         ConfigInfo update = MapstructUtils.convert(bo, ConfigInfo.class);
         if (StringUtils.isNotBlank(update.getCode())) {
@@ -135,6 +141,7 @@ public class ConfigInfoServiceImpl implements IConfigInfoService {
      * @return 是否删除成功
      */
     @Override
+    @CacheEvict(cacheNames = CacheNames.ConfigInfo, key = "#id")
     public Boolean deleteById(Long id) {
         CacheUtils.evict(CacheNames.ConfigInfo_Code, baseMapper.selectById(id).getCode());
         return baseMapper.deleteById(id) > 0;
@@ -148,6 +155,7 @@ public class ConfigInfoServiceImpl implements IConfigInfoService {
      * @return 是否删除成功
      */
     @Override
+    @DSTransactional
     public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {
         Boolean flag = true;
         if (isValid) {
@@ -175,7 +183,8 @@ public class ConfigInfoServiceImpl implements IConfigInfoService {
     }
 
     @Override
-    public ConfigInfoVo queryOneByCode(String code) {
+    @Cacheable(cacheNames = CacheNames.ConfigInfo_Code, key = "#code")
+    public ConfigInfoVo queryOneByCode(@NotBlank String code) {
         LambdaQueryWrapper<ConfigInfo> lqw = Wrappers.lambdaQuery();
         lqw.eq(ConfigInfo::getCode, code);
         return baseMapper.selectVoOne(lqw);

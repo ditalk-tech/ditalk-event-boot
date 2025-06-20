@@ -2,13 +2,9 @@ package org.dromara.module.config.service;
 
 import org.dromara.module.config.domain.vo.ConfigInfoVo;
 import org.dromara.module.config.domain.bo.ConfigInfoBo;
-import com.baomidou.dynamic.datasource.annotation.DSTransactional;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.IdPageQuery;
-import org.dromara.common.constant.CacheNames;
 
 import java.util.Collection;
 import java.util.List;
@@ -27,7 +23,6 @@ public interface IConfigInfoService {
      * @param id 主键
      * @return 配置信息
      */
-    @Cacheable(cacheNames = CacheNames.ConfigInfo, key = "#id")
     ConfigInfoVo queryById(Long id);
 
     /**
@@ -61,7 +56,6 @@ public interface IConfigInfoService {
      * @param bo 配置信息
      * @return 是否修改成功
      */
-    @CacheEvict(cacheNames = CacheNames.ConfigInfo, key = "#bo.id")
     Boolean updateByBo(ConfigInfoBo bo);
 
     /**
@@ -70,7 +64,6 @@ public interface IConfigInfoService {
      * @param id 主键
      * @return 是否删除成功
      */
-    @CacheEvict(cacheNames = CacheNames.ConfigInfo, key = "#id")
     Boolean deleteById(Long id);
 
     /**
@@ -80,7 +73,6 @@ public interface IConfigInfoService {
      * @param isValid 是否进行有效性校验
      * @return 是否删除成功
      */
-    @DSTransactional
     Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid);
 
     /**
@@ -91,6 +83,5 @@ public interface IConfigInfoService {
      */
     List<ConfigInfoVo> queryList(ConfigInfoBo bo, IdPageQuery pageQuery);
 
-    @Cacheable(cacheNames = CacheNames.ConfigInfo_Code, key = "#code")
     ConfigInfoVo queryOneByCode(String code);
 }

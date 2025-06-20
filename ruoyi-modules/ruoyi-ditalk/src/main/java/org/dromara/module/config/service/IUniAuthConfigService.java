@@ -1,15 +1,11 @@
 package org.dromara.module.config.service;
 
-import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import jakarta.validation.constraints.NotNull;
-import org.dromara.common.constant.CacheNames;
 import org.dromara.common.mybatis.core.page.IdPageQuery;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.module.config.domain.bo.UniAuthConfigBo;
 import org.dromara.module.config.domain.vo.UniAuthConfigVo;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 
 import java.util.Collection;
 import java.util.List;
@@ -28,7 +24,6 @@ public interface IUniAuthConfigService {
      * @param id 主键
      * @return 小程序变量
      */
-    @Cacheable(cacheNames = CacheNames.UniAuthConfig, key = "#id")
     UniAuthConfigVo queryById(Long id);
 
     /**
@@ -62,7 +57,6 @@ public interface IUniAuthConfigService {
      * @param bo 小程序变量
      * @return 是否修改成功
      */
-    @CacheEvict(cacheNames = CacheNames.UniAuthConfig, key = "#bo.id")
     Boolean updateByBo(UniAuthConfigBo bo);
 
     /**
@@ -71,7 +65,6 @@ public interface IUniAuthConfigService {
      * @param id 主键
      * @return 是否删除成功
      */
-    @CacheEvict(cacheNames = CacheNames.UniAuthConfig, key = "#id")
     Boolean deleteById(Long id);
 
     /**
@@ -81,7 +74,6 @@ public interface IUniAuthConfigService {
      * @param isValid 是否进行有效性校验
      * @return 是否删除成功
      */
-    @DSTransactional
     Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid);
 
     /**
@@ -92,5 +84,5 @@ public interface IUniAuthConfigService {
      */
     List<UniAuthConfigVo> queryList(UniAuthConfigBo bo, IdPageQuery pageQuery);
 
-    String getSecret(@NotNull String platform, @NotNull String appid);
+    String getSecret(String platform, String appid);
 }

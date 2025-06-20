@@ -1,10 +1,12 @@
 package org.dromara.module.member.service.impl;
 
+import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.common.constant.CacheNames;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.SpringUtils;
 import org.dromara.common.core.utils.StringUtils;
@@ -16,6 +18,8 @@ import org.dromara.module.member.domain.bo.MemberInfoBo;
 import org.dromara.module.member.domain.vo.MemberInfoVo;
 import org.dromara.module.member.mapper.MemberInfoMapper;
 import org.dromara.module.member.service.IMemberInfoService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -42,6 +46,7 @@ public class MemberInfoServiceImpl implements IMemberInfoService {
      * @return 会员信息
      */
     @Override
+    @Cacheable(cacheNames = CacheNames.MemberInfo, key = "#id")
     public MemberInfoVo queryById(Long id){
         return baseMapper.selectVoById(id);
     }
@@ -126,6 +131,7 @@ public class MemberInfoServiceImpl implements IMemberInfoService {
      * @return 是否修改成功
      */
     @Override
+    @CacheEvict(cacheNames = CacheNames.MemberInfo, key = "#bo.id")
     public Boolean updateByBo(MemberInfoBo bo) {
         MemberInfo update = MapstructUtils.convert(bo, MemberInfo.class);
         validEntityBeforeSave(update);
@@ -146,6 +152,7 @@ public class MemberInfoServiceImpl implements IMemberInfoService {
      * @return 是否删除成功
      */
     @Override
+    @CacheEvict(cacheNames = CacheNames.MemberInfo, key = "#id")
     public Boolean deleteById(Long id) {
         return baseMapper.deleteById(id) > 0;
     }
@@ -158,6 +165,7 @@ public class MemberInfoServiceImpl implements IMemberInfoService {
      * @return 是否删除成功
      */
     @Override
+    @DSTransactional
     public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {
         Boolean flag = true;
         if(isValid){

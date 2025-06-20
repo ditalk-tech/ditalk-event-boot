@@ -1,10 +1,13 @@
 package org.dromara.module.member.service.impl;
 
+import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.common.constant.CacheNames;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.SpringUtils;
 import org.dromara.common.core.utils.StringUtils;
@@ -16,6 +19,8 @@ import org.dromara.module.member.domain.bo.MemberOpenidBo;
 import org.dromara.module.member.domain.vo.MemberOpenidVo;
 import org.dromara.module.member.mapper.MemberOpenidMapper;
 import org.dromara.module.member.service.IMemberOpenidService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -42,6 +47,7 @@ public class MemberOpenidServiceImpl implements IMemberOpenidService {
      * @return 会员OpenId
      */
     @Override
+    @Cacheable(cacheNames = CacheNames.MemberOpenid, key = "#id")
     public MemberOpenidVo queryById(Long id){
         return baseMapper.selectVoById(id);
     }
@@ -111,6 +117,7 @@ public class MemberOpenidServiceImpl implements IMemberOpenidService {
      * @return 是否修改成功
      */
     @Override
+    @CacheEvict(cacheNames = CacheNames.MemberOpenid, key = "#bo.id")
     public Boolean updateByBo(MemberOpenidBo bo) {
         MemberOpenid update = MapstructUtils.convert(bo, MemberOpenid.class);
         validEntityBeforeSave(update);
@@ -131,6 +138,7 @@ public class MemberOpenidServiceImpl implements IMemberOpenidService {
      * @return 是否删除成功
      */
     @Override
+    @CacheEvict(cacheNames = CacheNames.MemberOpenid, key = "#id")
     public Boolean deleteById(Long id) {
         return baseMapper.deleteById(id) > 0;
     }
@@ -143,6 +151,7 @@ public class MemberOpenidServiceImpl implements IMemberOpenidService {
      * @return 是否删除成功
      */
     @Override
+    @DSTransactional
     public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {
         Boolean flag = true;
         if(isValid){
@@ -170,7 +179,7 @@ public class MemberOpenidServiceImpl implements IMemberOpenidService {
     }
 
     @Override
-    public MemberOpenidVo queryByOpenInfo(String appId, String openId) {
+    public MemberOpenidVo queryByOpenInfo(@NotBlank String appId, @NotBlank String openId) {
         return baseMapper.selectVoOne(
             new LambdaQueryWrapper<MemberOpenid>()
                 .eq(MemberOpenid::getAppId, appId)

@@ -1,14 +1,10 @@
 package org.dromara.module.contact.service;
 
-import com.baomidou.dynamic.datasource.annotation.DSTransactional;
-import org.dromara.common.constant.CacheNames;
 import org.dromara.common.mybatis.core.page.IdPageQuery;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.module.contact.domain.bo.ContactCommonTagsBo;
 import org.dromara.module.contact.domain.vo.ContactCommonTagsVo;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 
 import java.util.Collection;
 import java.util.List;
@@ -27,7 +23,6 @@ public interface IContactCommonTagsService {
      * @param id 主键
      * @return 常用标签
      */
-    @Cacheable(cacheNames = CacheNames.ContactCommonTags, key = "#id")
     ContactCommonTagsVo queryById(Long id);
 
     /**
@@ -61,7 +56,6 @@ public interface IContactCommonTagsService {
      * @param bo 常用标签
      * @return 是否修改成功
      */
-    @CacheEvict(cacheNames = CacheNames.ContactCommonTags, key = "#bo.id")
     Boolean updateByBo(ContactCommonTagsBo bo);
 
     /**
@@ -70,7 +64,6 @@ public interface IContactCommonTagsService {
      * @param id 主键
      * @return 是否删除成功
      */
-    @CacheEvict(cacheNames = CacheNames.ContactCommonTags, key = "#id")
     Boolean deleteById(Long id);
 
     /**
@@ -80,7 +73,6 @@ public interface IContactCommonTagsService {
      * @param isValid 是否进行有效性校验
      * @return 是否删除成功
      */
-    @DSTransactional
     Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid);
 
     /**

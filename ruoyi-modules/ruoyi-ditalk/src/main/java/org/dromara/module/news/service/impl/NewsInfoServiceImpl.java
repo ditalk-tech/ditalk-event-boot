@@ -1,10 +1,12 @@
 package org.dromara.module.news.service.impl;
 
+import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.common.constant.CacheNames;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.SpringUtils;
 import org.dromara.common.core.utils.StringUtils;
@@ -16,6 +18,8 @@ import org.dromara.module.news.domain.bo.NewsInfoBo;
 import org.dromara.module.news.domain.vo.NewsInfoVo;
 import org.dromara.module.news.mapper.NewsInfoMapper;
 import org.dromara.module.news.service.INewsInfoService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -42,6 +46,7 @@ public class NewsInfoServiceImpl implements INewsInfoService {
      * @return 喜讯新闻
      */
     @Override
+    @Cacheable(cacheNames = CacheNames.NewsInfo, key = "#id")
     public NewsInfoVo queryById(Long id){
         return baseMapper.selectVoById(id);
     }
@@ -109,6 +114,7 @@ public class NewsInfoServiceImpl implements INewsInfoService {
      * @return 是否修改成功
      */
     @Override
+    @CacheEvict(cacheNames = CacheNames.NewsInfo, key = "#bo.id")
     public Boolean updateByBo(NewsInfoBo bo) {
         NewsInfo update = MapstructUtils.convert(bo, NewsInfo.class);
         validEntityBeforeSave(update);
@@ -129,6 +135,7 @@ public class NewsInfoServiceImpl implements INewsInfoService {
      * @return 是否删除成功
      */
     @Override
+    @CacheEvict(cacheNames = CacheNames.NewsInfo, key = "#id")
     public Boolean deleteById(Long id) {
         return baseMapper.deleteById(id) > 0;
     }
@@ -141,6 +148,7 @@ public class NewsInfoServiceImpl implements INewsInfoService {
      * @return 是否删除成功
      */
     @Override
+    @DSTransactional
     public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {
         Boolean flag = true;
         if(isValid){

@@ -1,14 +1,10 @@
 package org.dromara.module.contact.service;
 
-import com.baomidou.dynamic.datasource.annotation.DSTransactional;
-import org.dromara.common.constant.CacheNames;
 import org.dromara.common.mybatis.core.page.IdPageQuery;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.module.contact.domain.bo.ContactInfoBo;
 import org.dromara.module.contact.domain.vo.ContactInfoVo;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 
 import java.util.Collection;
 import java.util.List;
@@ -27,7 +23,6 @@ public interface IContactInfoService {
      * @param id 主键
      * @return 联系人
      */
-    @Cacheable(cacheNames = CacheNames.ContactInfo, key = "#id")
     ContactInfoVo queryById(Long id);
 
     /**
@@ -61,7 +56,6 @@ public interface IContactInfoService {
      * @param bo 联系人
      * @return 是否修改成功
      */
-    @CacheEvict(cacheNames = CacheNames.ContactInfo, key = "#bo.id")
     Boolean updateByBo(ContactInfoBo bo);
 
     /**
@@ -70,7 +64,6 @@ public interface IContactInfoService {
      * @param id 主键
      * @return 是否删除成功
      */
-    @CacheEvict(cacheNames = CacheNames.ContactInfo, key = "#id")
     Boolean deleteById(Long id);
 
     /**
@@ -80,7 +73,6 @@ public interface IContactInfoService {
      * @param isValid 是否进行有效性校验
      * @return 是否删除成功
      */
-    @DSTransactional
     Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid);
 
     /**

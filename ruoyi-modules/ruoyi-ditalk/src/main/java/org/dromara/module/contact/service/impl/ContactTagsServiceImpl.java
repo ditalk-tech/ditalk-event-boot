@@ -1,10 +1,12 @@
 package org.dromara.module.contact.service.impl;
 
+import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.common.constant.CacheNames;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.SpringUtils;
 import org.dromara.common.core.utils.StringUtils;
@@ -16,6 +18,8 @@ import org.dromara.module.contact.domain.bo.ContactTagsBo;
 import org.dromara.module.contact.domain.vo.ContactTagsVo;
 import org.dromara.module.contact.mapper.ContactTagsMapper;
 import org.dromara.module.contact.service.IContactTagsService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -42,6 +46,7 @@ public class ContactTagsServiceImpl implements IContactTagsService {
      * @return 联系人标签
      */
     @Override
+    @Cacheable(cacheNames = CacheNames.ContactTags, key = "#id")
     public ContactTagsVo queryById(Long id){
         return baseMapper.selectVoById(id);
     }
@@ -110,6 +115,7 @@ public class ContactTagsServiceImpl implements IContactTagsService {
      * @return 是否修改成功
      */
     @Override
+    @CacheEvict(cacheNames = CacheNames.ContactTags, key = "#bo.id")
     public Boolean updateByBo(ContactTagsBo bo) {
         ContactTags update = MapstructUtils.convert(bo, ContactTags.class);
         validEntityBeforeSave(update);
@@ -130,6 +136,7 @@ public class ContactTagsServiceImpl implements IContactTagsService {
      * @return 是否删除成功
      */
     @Override
+    @CacheEvict(cacheNames = CacheNames.ContactTags, key = "#id")
     public Boolean deleteById(Long id) {
         return baseMapper.deleteById(id) > 0;
     }
@@ -142,6 +149,7 @@ public class ContactTagsServiceImpl implements IContactTagsService {
      * @return 是否删除成功
      */
     @Override
+    @DSTransactional
     public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {
         Boolean flag = true;
         if(isValid){

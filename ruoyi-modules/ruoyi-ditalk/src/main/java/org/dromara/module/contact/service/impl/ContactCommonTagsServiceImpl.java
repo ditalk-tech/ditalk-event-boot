@@ -1,10 +1,12 @@
 package org.dromara.module.contact.service.impl;
 
+import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.common.constant.CacheNames;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.SpringUtils;
 import org.dromara.common.core.utils.StringUtils;
@@ -16,6 +18,8 @@ import org.dromara.module.contact.domain.bo.ContactCommonTagsBo;
 import org.dromara.module.contact.domain.vo.ContactCommonTagsVo;
 import org.dromara.module.contact.mapper.ContactCommonTagsMapper;
 import org.dromara.module.contact.service.IContactCommonTagsService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -42,6 +46,7 @@ public class ContactCommonTagsServiceImpl implements IContactCommonTagsService {
      * @return 常用标签
      */
     @Override
+    @Cacheable(cacheNames = CacheNames.ContactCommonTags, key = "#id")
     public ContactCommonTagsVo queryById(Long id){
         return baseMapper.selectVoById(id);
     }
@@ -109,6 +114,7 @@ public class ContactCommonTagsServiceImpl implements IContactCommonTagsService {
      * @return 是否修改成功
      */
     @Override
+    @CacheEvict(cacheNames = CacheNames.ContactCommonTags, key = "#bo.id")
     public Boolean updateByBo(ContactCommonTagsBo bo) {
         ContactCommonTags update = MapstructUtils.convert(bo, ContactCommonTags.class);
         validEntityBeforeSave(update);
@@ -129,6 +135,7 @@ public class ContactCommonTagsServiceImpl implements IContactCommonTagsService {
      * @return 是否删除成功
      */
     @Override
+    @CacheEvict(cacheNames = CacheNames.ContactCommonTags, key = "#id")
     public Boolean deleteById(Long id) {
         return baseMapper.deleteById(id) > 0;
     }
@@ -141,6 +148,7 @@ public class ContactCommonTagsServiceImpl implements IContactCommonTagsService {
      * @return 是否删除成功
      */
     @Override
+    @DSTransactional
     public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {
         Boolean flag = true;
         if(isValid){

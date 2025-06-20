@@ -1,14 +1,10 @@
 package org.dromara.module.news.service;
 
-import com.baomidou.dynamic.datasource.annotation.DSTransactional;
-import org.dromara.common.constant.CacheNames;
 import org.dromara.common.mybatis.core.page.IdPageQuery;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.module.news.domain.bo.NewsInfoBo;
 import org.dromara.module.news.domain.vo.NewsInfoVo;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 
 import java.util.Collection;
 import java.util.List;
@@ -27,7 +23,6 @@ public interface INewsInfoService {
      * @param id 主键
      * @return 喜讯新闻
      */
-    @Cacheable(cacheNames = CacheNames.NewsInfo, key = "#id")
     NewsInfoVo queryById(Long id);
 
     /**
@@ -61,7 +56,6 @@ public interface INewsInfoService {
      * @param bo 喜讯新闻
      * @return 是否修改成功
      */
-    @CacheEvict(cacheNames = CacheNames.NewsInfo, key = "#bo.id")
     Boolean updateByBo(NewsInfoBo bo);
 
     /**
@@ -70,7 +64,6 @@ public interface INewsInfoService {
      * @param id 主键
      * @return 是否删除成功
      */
-    @CacheEvict(cacheNames = CacheNames.NewsInfo, key = "#id")
     Boolean deleteById(Long id);
 
     /**
@@ -80,7 +73,6 @@ public interface INewsInfoService {
      * @param isValid 是否进行有效性校验
      * @return 是否删除成功
      */
-    @DSTransactional
     Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid);
 
     /**

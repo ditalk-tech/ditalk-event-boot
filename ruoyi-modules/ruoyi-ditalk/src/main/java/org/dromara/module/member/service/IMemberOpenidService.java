@@ -1,15 +1,11 @@
 package org.dromara.module.member.service;
 
-import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import jakarta.validation.constraints.NotBlank;
-import org.dromara.common.constant.CacheNames;
 import org.dromara.common.mybatis.core.page.IdPageQuery;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.module.member.domain.bo.MemberOpenidBo;
 import org.dromara.module.member.domain.vo.MemberOpenidVo;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 
 import java.util.Collection;
 import java.util.List;
@@ -28,7 +24,6 @@ public interface IMemberOpenidService {
      * @param id 主键
      * @return 会员OpenId
      */
-    @Cacheable(cacheNames = CacheNames.MemberOpenid, key = "#id")
     MemberOpenidVo queryById(Long id);
 
     /**
@@ -62,7 +57,6 @@ public interface IMemberOpenidService {
      * @param bo 会员OpenId
      * @return 是否修改成功
      */
-    @CacheEvict(cacheNames = CacheNames.MemberOpenid, key = "#bo.id")
     Boolean updateByBo(MemberOpenidBo bo);
 
     /**
@@ -71,7 +65,6 @@ public interface IMemberOpenidService {
      * @param id 主键
      * @return 是否删除成功
      */
-    @CacheEvict(cacheNames = CacheNames.MemberOpenid, key = "#id")
     Boolean deleteById(Long id);
 
     /**
@@ -81,7 +74,6 @@ public interface IMemberOpenidService {
      * @param isValid 是否进行有效性校验
      * @return 是否删除成功
      */
-    @DSTransactional
     Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid);
 
     /**

@@ -1,10 +1,13 @@
 package org.dromara.module.config.service.impl;
 
+import com.baomidou.dynamic.datasource.annotation.DSTransactional;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.common.constant.CacheNames;
 import org.dromara.common.constant.CommonConstants;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.SpringUtils;
@@ -17,6 +20,8 @@ import org.dromara.module.config.domain.bo.UniAuthConfigBo;
 import org.dromara.module.config.domain.vo.UniAuthConfigVo;
 import org.dromara.module.config.mapper.UniAuthConfigMapper;
 import org.dromara.module.config.service.IUniAuthConfigService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -43,6 +48,7 @@ public class UniAuthConfigServiceImpl implements IUniAuthConfigService {
      * @return 小程序变量
      */
     @Override
+    @Cacheable(cacheNames = CacheNames.UniAuthConfig, key = "#id")
     public UniAuthConfigVo queryById(Long id) {
         return baseMapper.selectVoById(id);
     }
@@ -110,6 +116,7 @@ public class UniAuthConfigServiceImpl implements IUniAuthConfigService {
      * @return 是否修改成功
      */
     @Override
+    @CacheEvict(cacheNames = CacheNames.UniAuthConfig, key = "#bo.id")
     public Boolean updateByBo(UniAuthConfigBo bo) {
         UniAuthConfig update = MapstructUtils.convert(bo, UniAuthConfig.class);
         validEntityBeforeSave(update);
@@ -130,6 +137,7 @@ public class UniAuthConfigServiceImpl implements IUniAuthConfigService {
      * @return 是否删除成功
      */
     @Override
+    @CacheEvict(cacheNames = CacheNames.UniAuthConfig, key = "#id")
     public Boolean deleteById(Long id) {
         return baseMapper.deleteById(id) > 0;
     }
@@ -142,6 +150,7 @@ public class UniAuthConfigServiceImpl implements IUniAuthConfigService {
      * @return 是否删除成功
      */
     @Override
+    @DSTransactional
     public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {
         Boolean flag = true;
         if (isValid) {
@@ -169,7 +178,7 @@ public class UniAuthConfigServiceImpl implements IUniAuthConfigService {
     }
 
     @Override
-    public String getSecret(String platform, String appid) {
+    public String getSecret(@NotBlank String platform,@NotBlank String appid) {
         UniAuthConfig uniAuthConfig = baseMapper.selectOne(new LambdaQueryWrapper<UniAuthConfig>()
             .eq(UniAuthConfig::getPlatform, platform)
             .eq(UniAuthConfig::getAppId, appid)
