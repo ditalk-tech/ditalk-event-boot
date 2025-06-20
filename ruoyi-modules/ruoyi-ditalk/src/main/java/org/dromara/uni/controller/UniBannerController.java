@@ -7,7 +7,7 @@ import org.dromara.common.constant.ConfigInfoCodeConstants;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.enums.UniRoleKeyEnum;
 import org.dromara.handler.IBannerHandler;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +27,7 @@ public class UniBannerController {
     /**
      *
      */
-    @PostMapping("/getImageUrl")
+    @GetMapping("/getImageUrl")
     @SaCheckRole(value = {UniRoleKeyEnum.MP_WEIXIN_STR})
     public R<String> getImageUrl() {
         return R.ok("SUCCESS", bannerHandler.getImageUrl(ConfigInfoCodeConstants.BannerImageCode));
