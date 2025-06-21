@@ -2,7 +2,6 @@ package org.dromara.module.member.domain.vo;
 
 import org.dromara.common.translation.annotation.Translation;
 import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.dromara.common.translation.constant.TransConstant;
 import org.dromara.module.member.domain.MemberInfo;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
@@ -14,7 +13,6 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
 
 
 

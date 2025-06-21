@@ -1,7 +1,7 @@
 package org.dromara.server.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.dromara.common.constant.ConfigInfoCodeConstants;
 import org.dromara.common.core.domain.R;
@@ -12,11 +12,9 @@ import org.dromara.common.web.core.BaseController;
 import org.dromara.handler.IBannerHandler;
 import org.dromara.module.config.domain.vo.ConfigInfoVo;
 import org.dromara.module.config.service.IConfigInfoService;
+import org.dromara.server.controller.domain.bo.BannerImageBo;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 首页横幅
@@ -42,8 +40,8 @@ public class BannerController extends BaseController {
     @Log(title = "首页横幅", businessType = BusinessType.UPDATE)
     @RepeatSubmit()
     @PutMapping()
-    public R<Void> edit(@NotNull(message = "文件不能为空") Long ossId) {
-        return toAjax(bannerHandler.edit(ossId));
+    public R<Void> edit(@Valid @RequestBody BannerImageBo bo) {
+        return toAjax(bannerHandler.edit(bo));
     }
 
 }

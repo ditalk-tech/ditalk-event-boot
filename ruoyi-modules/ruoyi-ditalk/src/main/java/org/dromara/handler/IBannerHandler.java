@@ -1,7 +1,6 @@
 package org.dromara.handler;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import org.dromara.server.controller.domain.bo.BannerImageBo;
 
 /**
  * 轮播图处理接口
@@ -11,5 +10,5 @@ public interface IBannerHandler {
 
     String getImageUrl(String key);
 
-    int edit(@NotNull(message = "文件不能为空") Long ossId);
+    int edit(BannerImageBo bo);
 }
