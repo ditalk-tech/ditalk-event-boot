@@ -100,6 +100,7 @@ public class NewsInfoServiceImpl implements INewsInfoService {
      * @return 是否新增成功
      */
     @Override
+    @CacheEvict(cacheNames = CacheNames.NewsInfo_Total, allEntries = true)
     public Boolean insertByBo(NewsInfoBo bo) {
         NewsInfo add = MapstructUtils.convert(bo, NewsInfo.class);
         validEntityBeforeSave(add);
