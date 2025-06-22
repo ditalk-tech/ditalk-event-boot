@@ -5,6 +5,7 @@ import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.module.news.domain.bo.NewsInfoBo;
 import org.dromara.module.news.domain.vo.NewsInfoVo;
+import org.dromara.uni.controller.domain.bo.NewsInfoIdQueryBo;
 
 import java.util.Collection;
 import java.util.List;
@@ -81,5 +82,12 @@ public interface INewsInfoService {
      * @param bo 查询条件
      * @return 配置信息列表
      */
-    List<NewsInfoVo> queryList(NewsInfoBo bo, IdPageQuery pageQuery);
+    List<NewsInfoVo> queryList(NewsInfoIdQueryBo bo, IdPageQuery pageQuery);
+
+    /**
+     * 获取可用记录总数
+     *
+     * @return 记录总数
+     */
+    Integer getTotal();
 }

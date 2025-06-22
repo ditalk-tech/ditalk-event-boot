@@ -21,6 +21,7 @@ public interface CacheNames {
     String ConfigInfo = PREFIX + "ConfigInfo#7d";
     String UniAuthConfig = PREFIX + "UniAuthConfig#7d";
     String NewsInfo = PREFIX + "NewsInfo#7d";
+    String NewsInfo_Total = PREFIX + "NewsInfo_Total#7d";
     String MemberOpenid = PREFIX + "MemberOpenid#7d";
     String MemberInfo = PREFIX + "MemberInfo#7d";
     String ContactTags = PREFIX + "ContactTags#7d";

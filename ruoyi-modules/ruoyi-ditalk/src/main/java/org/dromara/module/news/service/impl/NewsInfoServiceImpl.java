@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.common.constant.CacheNames;
+import org.dromara.common.constant.CommonConstants;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.SpringUtils;
 import org.dromara.common.core.utils.StringUtils;
@@ -18,8 +19,10 @@ import org.dromara.module.news.domain.bo.NewsInfoBo;
 import org.dromara.module.news.domain.vo.NewsInfoVo;
 import org.dromara.module.news.mapper.NewsInfoMapper;
 import org.dromara.module.news.service.INewsInfoService;
+import org.dromara.uni.controller.domain.bo.NewsInfoIdQueryBo;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -114,7 +117,10 @@ public class NewsInfoServiceImpl implements INewsInfoService {
      * @return 是否修改成功
      */
     @Override
-    @CacheEvict(cacheNames = CacheNames.NewsInfo, key = "#bo.id")
+    @Caching(evict = {
+        @CacheEvict(cacheNames = CacheNames.NewsInfo, key = "#bo.id"),
+        @CacheEvict(cacheNames = CacheNames.NewsInfo_Total, allEntries = true)
+    })
     public Boolean updateByBo(NewsInfoBo bo) {
         NewsInfo update = MapstructUtils.convert(bo, NewsInfo.class);
         validEntityBeforeSave(update);
@@ -135,7 +141,10 @@ public class NewsInfoServiceImpl implements INewsInfoService {
      * @return 是否删除成功
      */
     @Override
-    @CacheEvict(cacheNames = CacheNames.NewsInfo, key = "#id")
+    @Caching(evict = {
+        @CacheEvict(cacheNames = CacheNames.NewsInfo, key = "#id"),
+        @CacheEvict(cacheNames = CacheNames.NewsInfo_Total, allEntries = true)
+    })
     public Boolean deleteById(Long id) {
         return baseMapper.deleteById(id) > 0;
     }
@@ -167,11 +176,20 @@ public class NewsInfoServiceImpl implements INewsInfoService {
      * @return 配置信息列表
      */
     @Override
-    public List<NewsInfoVo> queryList(NewsInfoBo bo, IdPageQuery pageQuery) {
+    public List<NewsInfoVo> queryList(NewsInfoIdQueryBo bo, IdPageQuery pageQuery) {
         LambdaQueryWrapper<NewsInfo> lqw = Wrappers.lambdaQuery();
         lqw.lt(pageQuery.getId() != null, NewsInfo::getId, pageQuery.getId());
         lqw.orderByDesc(NewsInfo::getId);
         lqw.eq(StringUtils.isNotBlank(bo.getState()), NewsInfo::getState, bo.getState());
         return baseMapper.selectVoList(pageQuery.build(lqw));
     }
+
+    @Override
+    @Cacheable(cacheNames = CacheNames.NewsInfo_Total, key = "'total'")
+    public Integer getTotal() {
+        LambdaQueryWrapper<NewsInfo> lqw = Wrappers.lambdaQuery();
+        lqw.eq(NewsInfo::getState, CommonConstants.AVAILABLE);
+        return baseMapper.selectCount(lqw).intValue();
+    }
+
 }
