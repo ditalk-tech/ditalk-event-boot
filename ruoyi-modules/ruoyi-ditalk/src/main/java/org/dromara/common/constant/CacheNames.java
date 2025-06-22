@@ -29,4 +29,5 @@ public interface CacheNames {
     String ContactInfo = PREFIX + "ContactInfo#7d";
     String ConfigInfo_Code = PREFIX + "ConfigInfo_Code#7d";
     String ContactCommonTags = PREFIX + "ContactCommonTags#7d";
+    String EventInfo = PREFIX + "EventInfo#7d";
 }
