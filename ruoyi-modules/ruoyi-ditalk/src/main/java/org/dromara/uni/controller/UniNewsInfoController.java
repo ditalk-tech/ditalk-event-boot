@@ -37,10 +37,10 @@ public class UniNewsInfoController extends BaseController {
     private final INewsInfoService newsInfoService;
 
     /**
-     * 查询喜讯新闻列表
+     * 查询列表
      * @param bo 查询条件
      * @param pageQuery 分页参数
-     * @return 喜讯新闻列表
+     * @return 列表
      */
     @SaCheckRole(value = {UniRoleKeyEnum.MP_WEIXIN_STR})
     @GetMapping("/list")
@@ -52,7 +52,7 @@ public class UniNewsInfoController extends BaseController {
     }
 
     /**
-     * 获取喜讯新闻详细信息
+     * 获取详细信息
      *
      * @param id 主键
      */
@@ -64,9 +64,9 @@ public class UniNewsInfoController extends BaseController {
     }
 
     /**
-     * 新增喜讯新闻
+     * 新增
      *
-     * @param bo 喜讯新闻
+     * @param bo 新增对象
      */
     @SaCheckRole(value = {UniRoleKeyEnum.MP_WEIXIN_STR})
     @Log(title = "喜讯新闻", businessType = BusinessType.INSERT)
@@ -77,9 +77,9 @@ public class UniNewsInfoController extends BaseController {
     }
 
     /**
-     * 修改喜讯新闻
+     * 修改
      *
-     * @param bo 喜讯新闻
+     * @param bo 修改对象
      */
     @SaCheckRole(value = {UniRoleKeyEnum.MP_WEIXIN_STR})
     @Log(title = "喜讯新闻", businessType = BusinessType.UPDATE)
@@ -90,7 +90,7 @@ public class UniNewsInfoController extends BaseController {
     }
 
     /**
-     * 删除喜讯新闻
+     * 删除
      *
      * @param ids 主键串
      */
@@ -103,9 +103,9 @@ public class UniNewsInfoController extends BaseController {
     }
 
     /**
-     * 获取喜讯新闻总数
+     * 获取总数
      *
-     * @return 喜讯新闻总数
+     * @return 总数
      */
     @SaCheckRole(value = {UniRoleKeyEnum.MP_WEIXIN_STR})
     @GetMapping("/total")

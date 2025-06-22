@@ -16,13 +16,14 @@ import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.module.event.domain.EventInfo;
 import org.dromara.module.event.domain.bo.EventInfoBo;
 import org.dromara.module.event.domain.vo.EventInfoVo;
-import org.dromara.module.event.service.IEventInfoService;
 import org.dromara.module.event.mapper.EventInfoMapper;
+import org.dromara.module.event.service.IEventInfoService;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -169,15 +170,18 @@ public class EventInfoServiceImpl implements IEventInfoService {
     /**
      * 通过ID分页查询活动信息列表
      *
-     * @param bo 查询条件
+     * @param bo 查询条件，params中存在"getNewList"取新数据，存在"getOldList"取旧数据
      * @return 活动信息列表
      */
     @Override
     public List<EventInfoVo> queryList(EventInfoBo bo, IdPageQuery pageQuery) {
+        Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<EventInfo> lqw = Wrappers.lambdaQuery();
-        lqw.lt(pageQuery.getId() != null, EventInfo::getId, pageQuery.getId());
         lqw.orderByDesc(EventInfo::getId);
+        lqw.lt(pageQuery.getId() != null, EventInfo::getId, pageQuery.getId());
         lqw.eq(StringUtils.isNotBlank(bo.getState()), EventInfo::getState, bo.getState());
+        lqw.ge(params.containsKey("getNewList"), EventInfo::getApplicationDeadline, new Date()); // 截止时间>=当前时间，取新数据
+        lqw.lt(params.containsKey("getOldList"), EventInfo::getApplicationDeadline, new Date()); // 截止时间<当前时间，取旧数据
         return baseMapper.selectVoList(pageQuery.build(lqw));
     }
 

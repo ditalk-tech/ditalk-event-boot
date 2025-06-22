@@ -8,7 +8,7 @@ import lombok.Data;
  * @author weidixian
  */
 @Data
-public class NewsInfoIdQueryBo {
+public class BaseIdQueryBo {
 
     /**
      * 状态（sys_normal_disable）
