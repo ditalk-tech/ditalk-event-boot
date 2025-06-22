@@ -30,9 +30,9 @@ public class IdPageQuery implements Serializable {
     private Integer pageSize;
 
     /**
-     * 每页显示记录数 默认值 默认查16条
+     * 每页显示记录数 默认值 默认查30条
      */
-    public static final int DEFAULT_PAGE_SIZE = 16;
+    public static final int DEFAULT_PAGE_SIZE = 30;
 
     public <T> LambdaQueryWrapper<T> build(LambdaQueryWrapper<T> lqw) {
         Integer pageSize = ObjectUtil.defaultIfNull(getPageSize(), DEFAULT_PAGE_SIZE);
