@@ -7,14 +7,17 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.common.constant.CacheNames;
+import org.dromara.common.core.exception.user.UserException;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.SpringUtils;
 import org.dromara.common.core.utils.StringUtils;
+import org.dromara.common.json.utils.JsonUtils;
 import org.dromara.common.mybatis.core.page.IdPageQuery;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.module.event.domain.EventInfo;
 import org.dromara.module.event.domain.bo.EventInfoBo;
+import org.dromara.module.event.domain.bo.EventInfoMemberBo;
 import org.dromara.module.event.domain.vo.EventInfoVo;
 import org.dromara.module.event.mapper.EventInfoMapper;
 import org.dromara.module.event.service.IEventInfoService;
@@ -132,7 +135,15 @@ public class EventInfoServiceImpl implements IEventInfoService {
      * 保存前的数据校验
      */
     private void validEntityBeforeSave(EventInfo entity) {
-        //TODO 做一些数据校验,如唯一约束
+        if (StringUtils.isBlank(entity.getMemberIds())) {
+            entity.setMemberIds("[]");
+        } else {
+            try {
+                JsonUtils.parseArray(entity.getMemberIds(), EventInfoMemberBo.class); // TODO 充分校验格式
+            } catch (Exception e) {
+                throw new UserException("成员信息格式错误!");
+            }
+        }
     }
 
     /**

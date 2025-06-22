@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import jakarta.validation.constraints.*;
 import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * 喜讯新闻业务对象 news_info
@@ -51,6 +50,5 @@ public class NewsInfoBo extends BaseEntity {
      */
     @NotBlank(message = "内容不能为空", groups = { AddGroup.class, EditGroup.class })
     private String content;
-
 
 }
