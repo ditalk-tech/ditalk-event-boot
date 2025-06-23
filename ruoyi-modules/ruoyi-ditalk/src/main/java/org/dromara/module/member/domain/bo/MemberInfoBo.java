@@ -115,7 +115,7 @@ public class MemberInfoBo extends BaseEntity {
     /**
      * 工作
      */
-    private String carrer;
+    private String career;
 
     /**
      * 籍贯

@@ -149,7 +149,7 @@ public class MemberInfoVo implements Serializable {
      * 工作
      */
     @ExcelProperty(value = "工作")
-    private String carrer;
+    private String career;
 
     /**
      * 籍贯

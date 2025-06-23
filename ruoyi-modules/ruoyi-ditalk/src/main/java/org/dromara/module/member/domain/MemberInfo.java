@@ -4,10 +4,8 @@ import org.dromara.common.tenant.core.TenantEntity;
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.dromara.common.translation.annotation.Translation;
+
 import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.dromara.common.translation.constant.TransConstant;
 
 import java.io.Serial;
 
@@ -121,7 +119,7 @@ public class MemberInfo extends TenantEntity {
     /**
      * 工作
      */
-    private String carrer;
+    private String career;
 
     /**
      * 籍贯

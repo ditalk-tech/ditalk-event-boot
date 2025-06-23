@@ -100,7 +100,7 @@ public class MemberInfoServiceImpl implements IMemberInfoService {
         lqw.between(params.get("beginTall") != null && params.get("endTall") != null,
             MemberInfo::getTall ,params.get("beginTall"), params.get("endTall"));
         lqw.eq(StringUtils.isNotBlank(bo.getQualification()), MemberInfo::getQualification, bo.getQualification());
-        lqw.eq(StringUtils.isNotBlank(bo.getCarrer()), MemberInfo::getCarrer, bo.getCarrer());
+        lqw.eq(StringUtils.isNotBlank(bo.getCareer()), MemberInfo::getCareer, bo.getCareer());
         lqw.eq(StringUtils.isNotBlank(bo.getPlaceOfOrigin()), MemberInfo::getPlaceOfOrigin, bo.getPlaceOfOrigin());
         lqw.like(StringUtils.isNotBlank(bo.getHobby()), MemberInfo::getHobby, bo.getHobby());
         lqw.eq(StringUtils.isNotBlank(bo.getOpenState()), MemberInfo::getOpenState, bo.getOpenState());
