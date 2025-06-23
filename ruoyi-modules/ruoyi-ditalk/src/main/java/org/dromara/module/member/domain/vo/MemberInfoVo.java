@@ -134,6 +134,13 @@ public class MemberInfoVo implements Serializable {
     private Date birthday;
 
     /**
+     * 婚姻状态
+     */
+    @ExcelProperty(value = "婚姻状态", converter = ExcelDictConvert.class)
+    @ExcelDictFormat(dictType = "ditalk_marital_status")
+    private String maritalStatus;
+
+    /**
      * 身高
      */
     @ExcelProperty(value = "身高")

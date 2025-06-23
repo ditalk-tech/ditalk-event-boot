@@ -94,6 +94,17 @@ public class MemberInfoBasicVo implements Serializable {
     private String ageRange;
 
     /**
+     * 婚姻状态
+     */
+    private String maritalStatus;
+
+    /**
+     * 婚姻状态标签
+     */
+    @Translation(type = TransConstant.DICT_TYPE_TO_LABEL, mapper = "maritalStatus", other = "ditalk_marital_status")
+    private String maritalStatusLabel;
+
+    /**
      * 身高
      */
     private Integer tall;

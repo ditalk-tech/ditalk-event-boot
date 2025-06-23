@@ -103,6 +103,11 @@ public class MemberInfoBo extends BaseEntity {
     private Date birthday;
 
     /**
+     * 婚姻状况
+     */
+    private String maritalStatus;
+
+    /**
      * 身高
      */
     private Integer tall;
