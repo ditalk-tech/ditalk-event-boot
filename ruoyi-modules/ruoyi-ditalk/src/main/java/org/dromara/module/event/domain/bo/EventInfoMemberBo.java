@@ -19,5 +19,6 @@ public class EventInfoMemberBo implements Serializable {
 
     private Long id;
     private String name;
+    private String sex;
     private String avatar;
 }
