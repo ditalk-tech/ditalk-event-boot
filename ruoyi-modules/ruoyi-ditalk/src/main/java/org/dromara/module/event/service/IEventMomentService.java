@@ -82,4 +82,12 @@ public interface IEventMomentService {
      * @return 活动瞬间列表
      */
     List<EventMomentVo> queryList(EventMomentBo bo, IdPageQuery pageQuery);
+
+    /**
+     * 通过活动ID查询活动瞬间列表
+     *
+     * @param eventId 活动ID
+     * @return 活动瞬间列表
+     */
+    List<EventMomentVo> queryByEventId(Long eventId);
 }

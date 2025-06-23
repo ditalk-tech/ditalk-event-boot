@@ -7,10 +7,10 @@ import org.dromara.common.constant.ConfigInfoCodeConstants;
 import org.dromara.common.core.exception.user.UserException;
 import org.dromara.common.core.utils.ObjectUtils;
 import org.dromara.common.json.utils.JsonUtils;
+import org.dromara.handler.IBannerHandler;
 import org.dromara.module.config.domain.bo.ConfigInfoBo;
 import org.dromara.module.config.domain.vo.ConfigInfoVo;
 import org.dromara.module.config.service.IConfigInfoService;
-import org.dromara.handler.IBannerHandler;
 import org.dromara.server.controller.domain.bo.BannerImageBo;
 import org.dromara.system.domain.vo.SysOssVo;
 import org.dromara.system.service.ISysOssService;
@@ -18,6 +18,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+
+/**
+ * 首页横幅应用接口
+ *
+ * @author weidixian
+ */
 
 @Slf4j
 @Service
@@ -48,11 +54,11 @@ public class BannerHandlerImpl implements IBannerHandler {
         configInfoBo.setValue(JsonUtils.toJsonString(valueMap));
         ConfigInfoVo configInfoVo = configInfoService.queryOneByCode(ConfigInfoCodeConstants.BannerImageCode);
         if (ObjectUtils.isNull(configInfoVo)) {
-            return configInfoService.insertByBo(configInfoBo)? 1 : 0;
+            return configInfoService.insertByBo(configInfoBo) ? 1 : 0;
         } else {
             configInfoBo.setId(configInfoVo.getId());
             configInfoBo.setVersion(bo.getVersion());
-            return configInfoService.updateByBo(configInfoBo)? 1 : 0;
+            return configInfoService.updateByBo(configInfoBo) ? 1 : 0;
         }
     }
 }

@@ -7,19 +7,22 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.common.constant.CacheNames;
+import org.dromara.common.constant.CommonConstants;
 import org.dromara.common.core.utils.MapstructUtils;
 import org.dromara.common.core.utils.SpringUtils;
 import org.dromara.common.core.utils.StringUtils;
 import org.dromara.common.mybatis.core.page.IdPageQuery;
 import org.dromara.common.mybatis.core.page.PageQuery;
 import org.dromara.common.mybatis.core.page.TableDataInfo;
+import org.dromara.common.redis.utils.CacheUtils;
 import org.dromara.module.event.domain.EventMoment;
 import org.dromara.module.event.domain.bo.EventMomentBo;
 import org.dromara.module.event.domain.vo.EventMomentVo;
-import org.dromara.module.event.service.IEventMomentService;
 import org.dromara.module.event.mapper.EventMomentMapper;
+import org.dromara.module.event.service.IEventMomentService;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -96,6 +99,7 @@ public class EventMomentServiceImpl implements IEventMomentService {
      * @return 是否新增成功
      */
     @Override
+    @CacheEvict(cacheNames = CacheNames.EventMoment_EventId, key = "#bo.eventId")
     public Boolean insertByBo(EventMomentBo bo) {
         EventMoment add = MapstructUtils.convert(bo, EventMoment.class);
         validEntityBeforeSave(add);
@@ -113,7 +117,10 @@ public class EventMomentServiceImpl implements IEventMomentService {
      * @return 是否修改成功
      */
     @Override
-    @CacheEvict(cacheNames = CacheNames.EventMoment, key = "#bo.id")
+    @Caching(evict = {
+        @CacheEvict(cacheNames = CacheNames.EventMoment_EventId, key = "#bo.eventId"),
+        @CacheEvict(cacheNames = CacheNames.EventMoment, key = "#bo.id")
+    })
     public Boolean updateByBo(EventMomentBo bo) {
         EventMoment update = MapstructUtils.convert(bo, EventMoment.class);
         validEntityBeforeSave(update);
@@ -136,6 +143,10 @@ public class EventMomentServiceImpl implements IEventMomentService {
     @Override
     @CacheEvict(cacheNames = CacheNames.EventMoment, key = "#id")
     public Boolean deleteById(Long id) {
+        EventMomentVo eventMomentVo = SpringUtils.getAopProxy(this).queryById(id);
+        if (eventMomentVo != null) {
+            CacheUtils.evict(CacheNames.EventMoment_EventId, eventMomentVo.getEventId());
+        }
         return baseMapper.deleteById(id) > 0;
     }
 
@@ -172,6 +183,15 @@ public class EventMomentServiceImpl implements IEventMomentService {
         lqw.orderByDesc(EventMoment::getId);
         lqw.eq(StringUtils.isNotBlank(bo.getState()), EventMoment::getState, bo.getState());
         return baseMapper.selectVoList(pageQuery.build(lqw));
+    }
+
+    @Override
+    @Cacheable(cacheNames = CacheNames.EventMoment_EventId, key = "#eventId")
+    public List<EventMomentVo> queryByEventId(Long eventId) {
+        return baseMapper.selectVoList(new LambdaQueryWrapper<EventMoment>()
+            .eq(EventMoment::getEventId, eventId)
+            .eq(EventMoment::getState, CommonConstants.AVAILABLE)
+        );
     }
 
 }

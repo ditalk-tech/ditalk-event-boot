@@ -1,21 +1,19 @@
 package org.dromara.module.event.domain.vo;
 
-import org.dromara.common.translation.annotation.Translation;
-import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.dromara.common.translation.constant.TransConstant;
-import org.dromara.module.event.domain.EventInfo;
 import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
 import cn.idev.excel.annotation.ExcelProperty;
-import org.dromara.common.excel.annotation.ExcelDictFormat;
-import org.dromara.common.excel.convert.ExcelDictConvert;
 import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
+import org.dromara.common.excel.annotation.ExcelDictFormat;
+import org.dromara.common.excel.convert.ExcelDictConvert;
+import org.dromara.common.translation.annotation.Translation;
+import org.dromara.common.translation.constant.TransConstant;
+import org.dromara.module.event.domain.EventInfo;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
-
+import java.util.List;
 
 
 /**
@@ -128,5 +126,5 @@ public class EventInfoVo implements Serializable {
     @ExcelDictFormat(dictType = "sys_normal_disable")
     private String state;
 
-
+    private List<EventMomentVo> eventMoments;
 }

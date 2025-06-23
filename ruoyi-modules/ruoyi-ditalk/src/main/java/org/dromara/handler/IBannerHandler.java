@@ -3,7 +3,8 @@ package org.dromara.handler;
 import org.dromara.server.controller.domain.bo.BannerImageBo;
 
 /**
- * 轮播图处理接口
+ * 首页横幅应用接口
+ *
  * @author weidixian
  */
 public interface IBannerHandler {

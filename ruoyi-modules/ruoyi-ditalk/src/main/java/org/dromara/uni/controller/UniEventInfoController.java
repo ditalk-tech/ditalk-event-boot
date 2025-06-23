@@ -8,6 +8,7 @@ import org.dromara.common.core.domain.R;
 import org.dromara.common.enums.UniRoleKeyEnum;
 import org.dromara.common.mybatis.core.page.IdPageQuery;
 import org.dromara.common.web.core.BaseController;
+import org.dromara.handler.IEventInfoHandler;
 import org.dromara.module.event.domain.bo.EventInfoBo;
 import org.dromara.module.event.domain.vo.EventInfoVo;
 import org.dromara.module.event.service.IEventInfoService;
@@ -33,6 +34,7 @@ import java.util.Map;
 public class UniEventInfoController extends BaseController {
 
     private final IEventInfoService eventInfoService;
+    private final IEventInfoHandler eventInfoHandler;
 
     /**
      * 查询列表
@@ -57,7 +59,8 @@ public class UniEventInfoController extends BaseController {
     @GetMapping("/{id}")
     public R<EventInfoVo> getInfo(@NotNull(message = "主键不能为空")
                                   @PathVariable Long id) {
-        return R.ok(eventInfoService.queryById(id));
+        EventInfoVo eventInfoVo = eventInfoHandler.getDetail(id);
+        return R.ok(eventInfoVo);
     }
 
     /**
