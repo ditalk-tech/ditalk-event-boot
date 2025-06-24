@@ -8,6 +8,7 @@ import org.dromara.common.core.domain.R;
 import org.dromara.common.enums.UniRoleKeyEnum;
 import org.dromara.common.idempotent.annotation.RepeatSubmit;
 import org.dromara.common.json.utils.JsonUtils;
+import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.system.domain.vo.SysClientVo;
 import org.dromara.system.service.ISysClientService;
 import org.dromara.uni.web.domain.bo.UniLoginBo;
@@ -57,6 +58,15 @@ public class UniAuthController {
     @GetMapping("/verify")
     public R verify() {
         return R.ok();
+    }
+
+    /**
+     * My id
+     */
+    @SaCheckRole(value = {UniRoleKeyEnum.MP_WEIXIN_STR})
+    @GetMapping("/getMyId")
+    public R getMyId() {
+        return R.ok(LoginHelper.getUserId());
     }
 
 }
