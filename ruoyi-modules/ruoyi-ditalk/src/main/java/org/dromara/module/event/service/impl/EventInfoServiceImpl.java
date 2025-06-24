@@ -135,11 +135,11 @@ public class EventInfoServiceImpl implements IEventInfoService {
      * 保存前的数据校验
      */
     private void validEntityBeforeSave(EventInfo entity) {
-        if (StringUtils.isBlank(entity.getMemberIds())) {
-            entity.setMemberIds("[]");
+        if (StringUtils.isBlank(entity.getMembers())) {
+            entity.setMembers("[]");
         } else {
             try {
-                JsonUtils.parseArray(entity.getMemberIds(), EventInfoMemberBo.class); // TODO 充分校验格式
+                JsonUtils.parseArray(entity.getMembers(), EventInfoMemberBo.class); // TODO 充分校验格式
             } catch (Exception e) {
                 throw new UserException("成员信息格式错误!");
             }

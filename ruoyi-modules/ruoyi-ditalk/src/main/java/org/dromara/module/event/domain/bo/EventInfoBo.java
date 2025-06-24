@@ -84,9 +84,9 @@ public class EventInfoBo extends BaseEntity {
     private String arrangement;
 
     /**
-     * 会员IDs
+     * 报名会员快照
      */
-    private String memberIds;
+    private String members;
 
     /**
      * 备注信息

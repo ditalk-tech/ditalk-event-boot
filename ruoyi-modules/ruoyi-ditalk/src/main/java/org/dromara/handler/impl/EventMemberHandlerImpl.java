@@ -61,7 +61,7 @@ public class EventMemberHandlerImpl implements IEventMemberHandler {
             avatarUrl = ossVo.getUrl();
         }
         // 获取活动信息中活动名单快照信息
-        List<EventInfoMemberBo> eventInfoMemberBos = JsonUtils.parseArray(eventInfoVo.getMemberIds(), EventInfoMemberBo.class);
+        List<EventInfoMemberBo> eventInfoMemberBos = JsonUtils.parseArray(eventInfoVo.getMembers(), EventInfoMemberBo.class);
         if (eventInfoMemberBos.size() >= eventInfoVo.getQuota()) throw new UserException("活动已满额!");
         // 组装快照活动名单
         EventInfoMemberBo eventInfoMemberBo = new EventInfoMemberBo();
@@ -71,11 +71,11 @@ public class EventMemberHandlerImpl implements IEventMemberHandler {
         eventInfoMemberBo.setAvatar(avatarUrl);
         // 更新活动信息中活动名单快照信息
         eventInfoMemberBos.add(eventInfoMemberBo);
-        eventInfoVo.setMemberIds(JsonUtils.toJsonString(eventInfoMemberBos));
+        eventInfoVo.setMembers(JsonUtils.toJsonString(eventInfoMemberBos));
         EventInfoBo eventInfoBo = new EventInfoBo();
         eventInfoBo.setId(eventInfoVo.getId());
         eventInfoBo.setVersion(eventInfoVo.getVersion());
-        eventInfoBo.setMemberIds(eventInfoVo.getMemberIds());
+        eventInfoBo.setMembers(eventInfoVo.getMembers());
         eventInfoService.updateByBo(eventInfoBo);
         // 添加活动名单
         EventMemberBo eventMemberBo = new EventMemberBo();

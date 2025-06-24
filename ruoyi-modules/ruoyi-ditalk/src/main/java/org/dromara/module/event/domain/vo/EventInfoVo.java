@@ -102,10 +102,10 @@ public class EventInfoVo implements Serializable {
     private String arrangement;
 
     /**
-     * 会员IDs
+     * 报名会员快照
      */
-    @ExcelProperty(value = "会员IDs")
-    private String memberIds;
+    @ExcelProperty(value = "报名会员快照")
+    private String members;
 
     /**
      * 备注信息
