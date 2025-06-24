@@ -59,6 +59,12 @@ public class EventMemberVo implements Serializable {
     private Long memberId;
 
     /**
+     * 开始时间
+     */
+    @ExcelProperty(value = "开始时间")
+    private Date startTime;
+
+    /**
      * 状态
      */
     @ExcelProperty(value = "状态", converter = ExcelDictConvert.class)

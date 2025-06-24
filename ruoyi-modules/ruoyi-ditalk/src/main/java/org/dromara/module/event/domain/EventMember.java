@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serial;
+import java.util.Date;
 
 /**
  * 活动报名人对象 event_member
@@ -48,6 +49,11 @@ public class EventMember extends TenantEntity {
      * 会员ID
      */
     private Long memberId;
+
+    /**
+     * 开始时间
+     */
+    private Date startTime;
 
     /**
      * 状态

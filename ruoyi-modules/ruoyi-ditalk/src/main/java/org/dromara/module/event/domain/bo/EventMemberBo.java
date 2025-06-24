@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import jakarta.validation.constraints.*;
 
+import java.util.Date;
+
 /**
  * 活动报名人业务对象 event_member
  *
@@ -43,6 +45,12 @@ public class EventMemberBo extends BaseEntity {
      */
     @NotNull(message = "会员ID不能为空", groups = { AddGroup.class, EditGroup.class })
     private Long memberId;
+
+    /**
+     * 开始时间
+     */
+    @NotNull(message = "开始时间不能为空", groups = { AddGroup.class, EditGroup.class })
+    private Date startTime;
 
     /**
      * 状态
