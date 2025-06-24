@@ -16,8 +16,8 @@ import org.dromara.common.mybatis.core.page.TableDataInfo;
 import org.dromara.module.event.domain.EventMember;
 import org.dromara.module.event.domain.bo.EventMemberBo;
 import org.dromara.module.event.domain.vo.EventMemberVo;
-import org.dromara.module.event.service.IEventMemberService;
 import org.dromara.module.event.mapper.EventMemberMapper;
+import org.dromara.module.event.service.IEventMemberService;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -78,14 +78,21 @@ public class EventMemberServiceImpl implements IEventMemberService {
     }
 
     private LambdaQueryWrapper<EventMember> buildQueryWrapper(EventMemberBo bo) {
+        LambdaQueryWrapper<EventMember> lqw = buildWrapper(bo);
+        lqw.eq(bo.getId() != null, EventMember::getId, bo.getId());
+        return lqw;
+    }
+
+    private LambdaQueryWrapper<EventMember> buildWrapper(EventMemberBo bo) {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<EventMember> lqw = Wrappers.lambdaQuery();
-        lqw.eq(bo.getId() != null, EventMember::getId, bo.getId());
         lqw.orderByDesc(EventMember::getId);
         lqw.between(params.get("beginCreateTime") != null && params.get("endCreateTime") != null,
             EventMember::getCreateTime, params.get("beginCreateTime"), params.get("endCreateTime"));
         lqw.eq(bo.getEventId() != null, EventMember::getEventId, bo.getEventId());
         lqw.eq(bo.getMemberId() != null, EventMember::getMemberId, bo.getMemberId());
+        lqw.ge(params.get("geStartTime") != null, EventMember::getStartTime, params.get("geStartTime"));
+        lqw.lt(params.get("ltStartTime") != null, EventMember::getStartTime, params.get("ltStartTime"));
         lqw.eq(StringUtils.isNotBlank(bo.getState()), EventMember::getState, bo.getState());
         return lqw;
     }
@@ -168,10 +175,8 @@ public class EventMemberServiceImpl implements IEventMemberService {
      */
     @Override
     public List<EventMemberVo> queryList(EventMemberBo bo, IdPageQuery pageQuery) {
-        LambdaQueryWrapper<EventMember> lqw = Wrappers.lambdaQuery();
+        LambdaQueryWrapper<EventMember> lqw = buildWrapper(bo);
         lqw.lt(pageQuery.getId() != null, EventMember::getId, pageQuery.getId());
-        lqw.orderByDesc(EventMember::getId);
-        lqw.eq(StringUtils.isNotBlank(bo.getState()), EventMember::getState, bo.getState());
         return baseMapper.selectVoList(pageQuery.build(lqw));
     }
 

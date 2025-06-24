@@ -82,4 +82,6 @@ public interface IEventInfoService {
      * @return 活动信息列表
      */
     List<EventInfoVo> queryList(EventInfoBo bo, IdPageQuery pageQuery);
+
+    List<EventInfoVo> queryListByIds(List<Long> ids);
 }

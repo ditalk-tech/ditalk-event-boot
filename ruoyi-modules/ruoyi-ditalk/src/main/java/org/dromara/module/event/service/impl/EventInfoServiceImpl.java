@@ -82,9 +82,14 @@ public class EventInfoServiceImpl implements IEventInfoService {
     }
 
     private LambdaQueryWrapper<EventInfo> buildQueryWrapper(EventInfoBo bo) {
+        LambdaQueryWrapper<EventInfo> lqw = buildWrapper(bo);
+        lqw.eq(bo.getId() != null, EventInfo::getId, bo.getId());
+        return lqw;
+    }
+
+    private LambdaQueryWrapper<EventInfo> buildWrapper(EventInfoBo bo) {
         Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<EventInfo> lqw = Wrappers.lambdaQuery();
-        lqw.eq(bo.getId() != null, EventInfo::getId, bo.getId());
         lqw.orderByDesc(EventInfo::getId);
         lqw.between(params.get("beginCreateTime") != null && params.get("endCreateTime") != null,
             EventInfo::getCreateTime, params.get("beginCreateTime"), params.get("endCreateTime"));
@@ -97,6 +102,8 @@ public class EventInfoServiceImpl implements IEventInfoService {
             EventInfo::getStartTime, params.get("beginStartTime"), params.get("endStartTime"));
         lqw.like(StringUtils.isNotBlank(bo.getLocation()), EventInfo::getLocation, bo.getLocation());
         lqw.eq(StringUtils.isNotBlank(bo.getState()), EventInfo::getState, bo.getState());
+        lqw.ge(params.containsKey("getNewList"), EventInfo::getApplicationDeadline, new Date()); // 截止时间>=当前时间，取新数据
+        lqw.lt(params.containsKey("getOldList"), EventInfo::getApplicationDeadline, new Date()); // 截止时间<当前时间，取旧数据
         return lqw;
     }
 
@@ -186,14 +193,14 @@ public class EventInfoServiceImpl implements IEventInfoService {
      */
     @Override
     public List<EventInfoVo> queryList(EventInfoBo bo, IdPageQuery pageQuery) {
-        Map<String, Object> params = bo.getParams();
-        LambdaQueryWrapper<EventInfo> lqw = Wrappers.lambdaQuery();
-        lqw.orderByDesc(EventInfo::getId);
+        LambdaQueryWrapper<EventInfo> lqw = buildWrapper(bo);
         lqw.lt(pageQuery.getId() != null, EventInfo::getId, pageQuery.getId());
-        lqw.eq(StringUtils.isNotBlank(bo.getState()), EventInfo::getState, bo.getState());
-        lqw.ge(params.containsKey("getNewList"), EventInfo::getApplicationDeadline, new Date()); // 截止时间>=当前时间，取新数据
-        lqw.lt(params.containsKey("getOldList"), EventInfo::getApplicationDeadline, new Date()); // 截止时间<当前时间，取旧数据
         return baseMapper.selectVoList(pageQuery.build(lqw));
+    }
+
+    @Override
+    public List<EventInfoVo> queryListByIds(List<Long> ids) {
+        return baseMapper.selectVoByIds(ids);
     }
 
 }

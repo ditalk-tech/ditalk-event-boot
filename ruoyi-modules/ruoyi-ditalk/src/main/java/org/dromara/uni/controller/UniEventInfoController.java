@@ -97,6 +97,30 @@ public class UniEventInfoController extends BaseController {
         return R.ok(eventInfoService.queryList(eventInfoBo, pageQuery));
     }
 
+    /**
+     * 查询列表 —— 最新活动列表
+     *
+     * @param pageQuery 分页参数
+     * @return 列表
+     */
+    @SaCheckRole(value = {UniRoleKeyEnum.MP_WEIXIN_STR})
+    @GetMapping("/my/new/list")
+    public R<List<EventInfoVo>> myNewList(IdPageQuery pageQuery) {
+        return R.ok(eventInfoHandler.queryMyNewEvents(pageQuery));
+    }
+
+    /**
+     * 查询列表 —— 历史活动列表
+     *
+     * @param pageQuery 分页参数
+     * @return 列表
+     */
+    @SaCheckRole(value = {UniRoleKeyEnum.MP_WEIXIN_STR})
+    @GetMapping("/my/old/list")
+    public R<List<EventInfoVo>> myOldList(IdPageQuery pageQuery) {
+        return R.ok(eventInfoHandler.queryMyOldEvents(pageQuery));
+    }
+
 //    /**
 //     * 新增
 //     *
