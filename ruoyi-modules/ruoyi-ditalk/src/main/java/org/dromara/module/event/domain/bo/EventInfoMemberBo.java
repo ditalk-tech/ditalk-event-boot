@@ -6,7 +6,7 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * 活动信息中的 member_ids
+ * 活动信息中的活动名单快照对象
  *
  * @author weidixian
  */

@@ -14,8 +14,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
-
-
 /**
  * 会员照片视图对象 member_photo
  *
@@ -78,6 +76,5 @@ public class MemberPhotoVo implements Serializable {
     @ExcelProperty(value = "状态", converter = ExcelDictConvert.class)
     @ExcelDictFormat(dictType = "sys_normal_disable")
     private String state;
-
 
 }
