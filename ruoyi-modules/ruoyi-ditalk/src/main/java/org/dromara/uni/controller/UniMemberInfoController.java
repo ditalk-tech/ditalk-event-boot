@@ -7,11 +7,13 @@ import lombok.RequiredArgsConstructor;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.core.exception.user.UserException;
 import org.dromara.common.enums.UniRoleKeyEnum;
+import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.common.utils.AgeRangeCalculator;
 import org.dromara.common.web.core.BaseController;
 import org.dromara.module.member.domain.vo.MemberInfoVo;
 import org.dromara.module.member.service.IMemberInfoService;
 import org.dromara.uni.controller.domain.vo.MemberInfoBasicVo;
+import org.dromara.uni.controller.domain.vo.MemberInfoExtVo;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,7 +55,7 @@ public class UniMemberInfoController extends BaseController {
     @SaCheckRole(value = {UniRoleKeyEnum.MP_WEIXIN_STR})
     @GetMapping("/basic/{id}")
     public R<MemberInfoBasicVo> getDetail(@NotNull(message = "主键不能为空")
-                                     @PathVariable Long id) {
+                                          @PathVariable Long id) {
         MemberInfoVo memberInfoVo = memberInfoService.queryById(id);
         if (memberInfoVo == null) {
             throw new UserException("信息不存在");
@@ -63,6 +65,19 @@ public class UniMemberInfoController extends BaseController {
             memberInfoBasicVo.setAgeRange(AgeRangeCalculator.calculateAgeRange(memberInfoVo.getBirthday()));
         }
         return R.ok(memberInfoBasicVo);
+    }
+
+    /**
+     * 获取本人的详细信息
+     */
+    @SaCheckRole(value = {UniRoleKeyEnum.MP_WEIXIN_STR})
+    @GetMapping("/my")
+    public R<MemberInfoExtVo> getMyDetail() {
+        MemberInfoVo memberInfoVo = memberInfoService.queryById(LoginHelper.getUserId());
+        if (memberInfoVo == null) {
+            throw new UserException("信息不存在");
+        }
+        return R.ok(BeanUtil.copyProperties(memberInfoVo, MemberInfoExtVo.class));
     }
 
 }

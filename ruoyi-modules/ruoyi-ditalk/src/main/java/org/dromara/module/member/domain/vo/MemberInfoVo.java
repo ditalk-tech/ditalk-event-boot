@@ -14,10 +14,8 @@ import lombok.Data;
 import java.io.Serial;
 import java.io.Serializable;
 
-
-
 /**
- * 会员信息视图对象 member_info
+ * 会员信息视图对象
  *
  * @author weidixian
  * @date 2025-06-06
