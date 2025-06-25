@@ -36,7 +36,7 @@ public class MemberInfoBo extends BaseEntity {
     /**
      * 状态
      */
-    @NotBlank(message = "状态不能为空", groups = { AddGroup.class, EditGroup.class })
+    @NotBlank(message = "状态不能为空", groups = { AddGroup.class })
     private String state;
 
     /**
@@ -53,13 +53,13 @@ public class MemberInfoBo extends BaseEntity {
     /**
      * 昵称
      */
-    @NotBlank(message = "昵称不能为空", groups = { AddGroup.class, EditGroup.class })
+    @NotBlank(message = "昵称不能为空", groups = { AddGroup.class })
     private String nickName;
 
     /**
      * 用户类型
      */
-    @NotBlank(message = "用户类型不能为空", groups = { AddGroup.class, EditGroup.class })
+    @NotBlank(message = "用户类型不能为空", groups = { AddGroup.class })
     private String userType;
 
     /**
