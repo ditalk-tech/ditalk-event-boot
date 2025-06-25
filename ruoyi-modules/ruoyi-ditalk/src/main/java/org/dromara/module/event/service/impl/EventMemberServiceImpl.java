@@ -93,6 +93,7 @@ public class EventMemberServiceImpl implements IEventMemberService {
         lqw.eq(bo.getMemberId() != null, EventMember::getMemberId, bo.getMemberId());
         lqw.ge(params.get("geStartTime") != null, EventMember::getStartTime, params.get("geStartTime"));
         lqw.lt(params.get("ltStartTime") != null, EventMember::getStartTime, params.get("ltStartTime"));
+        lqw.ge(bo.getSignCode() != null, EventMember::getSignCode, bo.getSignCode());
         lqw.eq(StringUtils.isNotBlank(bo.getState()), EventMember::getState, bo.getState());
         return lqw;
     }

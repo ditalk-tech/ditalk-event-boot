@@ -53,6 +53,12 @@ public class EventMemberBo extends BaseEntity {
     private Date startTime;
 
     /**
+     * 签到码
+     */
+    @NotNull(message = "签到码不能为空", groups = { AddGroup.class, EditGroup.class })
+    private Integer signCode;
+
+    /**
      * 状态
      */
     @NotBlank(message = "状态不能为空", groups = { AddGroup.class, EditGroup.class })

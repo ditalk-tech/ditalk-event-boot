@@ -65,6 +65,12 @@ public class EventMemberVo implements Serializable {
     private Date startTime;
 
     /**
+     * 签到码
+     */
+    @ExcelProperty(value = "签到码")
+    private Integer signCode;
+
+    /**
      * 状态
      */
     @ExcelProperty(value = "状态", converter = ExcelDictConvert.class)

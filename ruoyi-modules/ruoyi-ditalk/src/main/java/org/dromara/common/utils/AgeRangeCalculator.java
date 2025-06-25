@@ -9,6 +9,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 年龄段计算工具类
+ *
+ * @author weidixian
+ */
+
 public class AgeRangeCalculator {
 
     // 静态常量：从20岁开始，每5年一个段的年龄段列表

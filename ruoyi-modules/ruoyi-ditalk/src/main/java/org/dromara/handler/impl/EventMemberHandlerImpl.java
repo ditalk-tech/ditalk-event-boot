@@ -1,11 +1,13 @@
 package org.dromara.handler.impl;
 
 import com.baomidou.dynamic.datasource.annotation.DSTransactional;
+import com.baomidou.lock.annotation.Lock4j;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.common.constant.CommonConstants;
 import org.dromara.common.core.exception.user.UserException;
 import org.dromara.common.json.utils.JsonUtils;
+import org.dromara.common.utils.CodeGeneratorUtil;
 import org.dromara.handler.IEventMemberHandler;
 import org.dromara.module.event.domain.bo.EventInfoBo;
 import org.dromara.module.event.domain.bo.EventInfoMemberBo;
@@ -40,6 +42,7 @@ public class EventMemberHandlerImpl implements IEventMemberHandler {
 
     @Override
     @DSTransactional
+    @Lock4j(expire = 10000L)
     public Boolean signup(Long eventId, Long memberId) {
         // 查询活动名单
         EventMemberBo bo = new EventMemberBo();
@@ -77,10 +80,25 @@ public class EventMemberHandlerImpl implements IEventMemberHandler {
         eventInfoBo.setVersion(eventInfoVo.getVersion());
         eventInfoBo.setMembers(eventInfoVo.getMembers());
         eventInfoService.updateByBo(eventInfoBo);
+        // 处理活动名单
+        // 生成签到码
+        int signCode = CodeGeneratorUtil.next4digit().intValue();
+        EventMemberBo codeQueryBo = new EventMemberBo();
+        codeQueryBo.setEventId(eventInfoVo.getId());
+        codeQueryBo.setSignCode(signCode);
+        List<EventMemberVo> queryList = eventMemberService.queryList(codeQueryBo);
+        // 判断签到码是否重复，重新生成
+        while (queryList.size() > 0) {
+            signCode = CodeGeneratorUtil.next4digit().intValue();
+            codeQueryBo.setSignCode(signCode);
+            queryList = eventMemberService.queryList(codeQueryBo);
+        }
         // 添加活动名单
         EventMemberBo eventMemberBo = new EventMemberBo();
-        eventMemberBo.setMemberId(memberInfoVo.getId());
         eventMemberBo.setEventId(eventInfoVo.getId());
+        eventMemberBo.setMemberId(memberInfoVo.getId());
+        eventMemberBo.setStartTime(eventInfoVo.getStartTime());
+        eventMemberBo.setSignCode(signCode);
         eventMemberBo.setState(CommonConstants.AVAILABLE);
         return eventMemberService.insertByBo(eventMemberBo);
     }

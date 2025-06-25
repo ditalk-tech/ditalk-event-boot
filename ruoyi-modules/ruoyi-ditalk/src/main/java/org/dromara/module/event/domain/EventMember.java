@@ -56,6 +56,11 @@ public class EventMember extends TenantEntity {
     private Date startTime;
 
     /**
+     * 签到码
+     */
+    private Integer signCode;
+
+    /**
      * 状态
      */
     private String state;

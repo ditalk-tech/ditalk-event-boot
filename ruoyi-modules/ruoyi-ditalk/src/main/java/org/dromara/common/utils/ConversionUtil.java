@@ -1,7 +1,9 @@
 package org.dromara.common.utils;
 
 /**
- * 转换器
+ * 编码转换工具类
+ *
+ * @author weidixian
  */
 public class ConversionUtil {
     private static final String BASE32_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUV";
