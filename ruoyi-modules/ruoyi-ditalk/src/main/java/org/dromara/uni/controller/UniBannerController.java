@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.dromara.common.constant.ConfigInfoCodeConstants;
 import org.dromara.common.core.domain.R;
 import org.dromara.common.enums.UniRoleKeyEnum;
+import org.dromara.common.web.core.BaseController;
 import org.dromara.handler.IBannerHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/uni/banner")
-public class UniBannerController {
+public class UniBannerController extends BaseController {
 
     private final IBannerHandler bannerHandler;
 

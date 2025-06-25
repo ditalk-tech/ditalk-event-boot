@@ -96,4 +96,18 @@ public class UniMemberInfoController extends BaseController {
         return toAjax(memberInfoService.updateByBo(bo));
     }
 
+    /**
+     * 获取本人的头像信息
+     */
+    @SaCheckRole(value = {UniRoleKeyEnum.MP_WEIXIN_STR})
+    @Log(title = "会员信息", businessType = BusinessType.UPDATE)
+    @RepeatSubmit()
+    @PutMapping("/my/avatar")
+    public R updateMyAvatar(@Validated(EditGroup.class) @RequestBody MemberInfoBo bo) {
+        if (!bo.getId().equals(LoginHelper.getUserId())) {
+            throw new UserException("无权操作");
+        }
+        return toAjax(memberInfoService.updateByBo(bo));
+    }
+
 }
