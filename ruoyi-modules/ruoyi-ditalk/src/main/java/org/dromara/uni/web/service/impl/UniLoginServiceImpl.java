@@ -10,6 +10,7 @@ import org.dromara.common.core.constant.TenantConstants;
 import org.dromara.common.core.enums.UserType;
 import org.dromara.common.core.exception.user.UserException;
 import org.dromara.common.core.utils.StringUtils;
+import org.dromara.common.enums.MemberInfoStateEnum;
 import org.dromara.common.tenant.exception.TenantException;
 import org.dromara.common.tenant.helper.TenantHelper;
 import org.dromara.system.domain.vo.SysTenantVo;
@@ -129,7 +130,7 @@ public class UniLoginServiceImpl implements IUniLoginService {
         memberInfoBo.setNickName(uniRegisterBo.getNickName());
         memberInfoBo.setPhoneNumber(uniRegisterBo.getPhoneNumber());
         memberInfoBo.setXcxAvatar(uniRegisterBo.getAvatar());
-        memberInfoBo.setState(CommonConstants.AVAILABLE);
+        memberInfoBo.setState(MemberInfoStateEnum.ACTIVITY.getCode());
         memberInfoBo.setCreateBy(id);
         memberInfoBo.setCreateTime(new Date());
         memberInfoService.insertByBo(memberInfoBo);
