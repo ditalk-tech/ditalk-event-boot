@@ -15,11 +15,13 @@
 UniApp 用户端适配多端，方便用户随时随地浏览活动详情、在线报名与互动。
 系统能够自由拓展功能，无论是企业组织团建、社团策划活动，还是个人发起社交聚会，都能通过该系统实现高效管理与便捷参与，为活动组织者与参与者搭建起数字化、智能化的沟通桥梁。
 
-> 系统演示：[传送门](https://demo-event.ditalk.tech/)
+> 系统演示：[传送门](https://ditalk.tech/) 建设中...
 
 > 管理后台地址：[Gitee](https://gitee.com/ditalk/ditalk-event-boot)   -- [Github](https://github.com/ditalk-tech/ditalk-event-boot) <br>
 > 后台前端地址：[Gitee](https://gitee.com/ditalk/ditalk-event-ui)     -- [Github](https://github.com/ditalk-tech/ditalk-event-ui) <br>
 > 用户前端地址：[Gitee](https://gitee.com/ditalk/ditalk-event-uniapp) -- [Github](https://github.com/ditalk-tech/ditalk-event-uniapp) <br>
+
+---
 
 # 系统说明
 
@@ -30,39 +32,74 @@ UniApp 用户端适配多端，方便用户随时随地浏览活动详情、在�
 > [RuoYi-Vue-Plus 完整文档](https://plus-doc.dromara.org)
 >
 > [项目初始化方法](https://plus-doc.dromara.org/#/ruoyi-vue-plus/quickstart/init)
+> 
+> 注意数据库初始化使用 **ditalk-db.sql** 文件
 
 ## 软件架构图
 
 ![Plus部署架构图](https://foruda.gitee.com/images/1678981882624240692/ae2a3f3e_1766278.png "Plus部署架构图.png")
 
-## 如何获取完整功能版
+## 快速部署
 
-> **免费向用户提供此部署包**，仅用于系统体验与功能评估，不包含源码。严禁将其用于生产环境，若因违规使用导致任何损失，需用户自行承担全部责任。
->
-> 联系作者可获取完整版。
+大致步骤如下：（注意运行环境参考：[RuoYi-Vue-Plus 运行环境](https://plus-doc.dromara.org/#/ruoyi-vue-plus/quickstart/deploy)）
+
+1. 初始化数据库
+2. 打包后台代码
+3. 配置并启动后台
+4. 打包发布后台UI
+5. 配置OSS服务参数
+6. 配置小程序参数
+7. 配置小程序横幅
+8. 发布小程序
+
+## 如何获取定制功能
+
+添加微信告诉我你的需要。**微信号：ditalk_tech**
+
+或发邮件到：[ditalk@163.com](mailto:ditalk@163.com)
 
 ## 如何联系 (添加微信)
 
-| <img src="https://static.ditalk.tech/ditalk-wx-qr-code.jpg" width="300px" height="450px" /> | <img src="https://static.ditalk.tech/my-wx-qr-code.jpg" width="300px" height="450px" /> |
-|---------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
+<img src="https://ooo.0x0.ooo/2025/06/26/OVLVDx.jpg" alt="OVLVDx.jpg" border="0" style="width: 280px">
+<img src="https://ooo.0x0.ooo/2025/06/26/OVLY6j.jpg" alt="OVLY6j.jpg" border="0" style="width: 280px">
+
+## 完善项目
+
+收藏、点赞，到 Issues 提交需求。
 
 ## 完整版演示图例
 
-|   |   |
-|---|---|
-|   |   |
-|   |   |
-|   |   |
-|   |   |
-|   |   |
-|   |   |
+### 用户端
+
+<img src="https://ooo.0x0.ooo/2025/06/26/OVLmAb.jpg" alt="OVLmAb.jpg" border="0" style="width: 260px">
+<img src="https://ooo.0x0.ooo/2025/06/26/OVLgqP.jpg" alt="OVLgqP.jpg" border="0" style="width: 260px">
+<img src="https://ooo.0x0.ooo/2025/06/26/OVLvV6.jpg" alt="OVLvV6.jpg" border="0" style="width: 260px">
+<img src="https://ooo.0x0.ooo/2025/06/26/OVLZmF.jpg" alt="OVLZmF.jpg" border="0" style="width: 260px">
+<img src="https://ooo.0x0.ooo/2025/06/26/OVLKbD.jpg" alt="OVLKbD.jpg" border="0" style="width: 260px">
+<img src="https://ooo.0x0.ooo/2025/06/26/OVLr2I.jpg" alt="OVLr2I.jpg" border="0" style="width: 260px">
+<img src="https://ooo.0x0.ooo/2025/06/26/OVLe41.jpg" alt="OVLe41.jpg" border="0" style="width: 260px">
+<img src="https://ooo.0x0.ooo/2025/06/26/OVLNiG.jpg" alt="OVLNiG.jpg" border="0" style="width: 260px">
+<img src="https://ooo.0x0.ooo/2025/06/26/OVL1CM.jpg" alt="OVL1CM.jpg" border="0" style="width: 260px">
+
+### 管理后台
+
+<img src="https://ooo.0x0.ooo/2025/06/26/OVLt4s.jpg" alt="OVLt4s.jpg" border="0" style="width: 600px">
+<img src="https://ooo.0x0.ooo/2025/06/26/OVLJCg.jpg" alt="OVLJCg.jpg" border="0" style="width: 600px">
+<img src="https://ooo.0x0.ooo/2025/06/26/OVLRnB.jpg" alt="OVLRnB.jpg" border="0" style="width: 600px">
+<img src="https://ooo.0x0.ooo/2025/06/26/OVLpQl.jpg" alt="OVLpQl.jpg" border="0" style="width: 600px">
+<img src="https://ooo.0x0.ooo/2025/06/26/OVL46K.jpg" alt="OVL46K.jpg" border="0" style="width: 600px">
+<img src="https://ooo.0x0.ooo/2025/06/26/OVLSAL.jpg" alt="OVLSAL.jpg" border="0" style="width: 600px">
+<img src="https://ooo.0x0.ooo/2025/06/26/OVLQqC.jpg" alt="OVLQqC.jpg" border="0" style="width: 600px">
+<img src="https://ooo.0x0.ooo/2025/06/26/OVLLmS.jpg" alt="OVLLmS.jpg" border="0" style="width: 600px">
+<img src="https://ooo.0x0.ooo/2025/06/26/OVLEYN.jpg" alt="OVLEYN.jpg" border="0" style="width: 600px">
+<img src="https://ooo.0x0.ooo/2025/06/26/OVLHka.jpg" alt="OVLHka.jpg" border="0" style="width: 600px">
 
 ## 捐献作者
 
 开源不易，谢谢你的每一分支持。
 
-|<img src="https://static.ditalk.tech/weixin-payment.jpg" width="300px" height="450px" />|<img src="https://static.ditalk.tech/alipay-payment.jpg" width="300px" height="450px" />|
-|---|---|
+<img src="https://ooo.0x0.ooo/2025/06/26/OVL9pU.jpg" alt="OVL9pU.jpg" border="0" style="width: 250px">
+<img src="https://ooo.0x0.ooo/2025/06/26/OVLlkp.jpg" alt="OVLlkp.jpg" border="0" style="width: 250px">
 
 ---
 
