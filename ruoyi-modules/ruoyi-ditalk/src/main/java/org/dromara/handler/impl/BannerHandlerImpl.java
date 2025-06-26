@@ -2,11 +2,13 @@ package org.dromara.handler.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.common.constant.CacheNames;
 import org.dromara.common.constant.CommonConstants;
 import org.dromara.common.constant.ConfigInfoCodeConstants;
 import org.dromara.common.core.exception.user.UserException;
 import org.dromara.common.core.utils.ObjectUtils;
 import org.dromara.common.json.utils.JsonUtils;
+import org.dromara.common.redis.utils.CacheUtils;
 import org.dromara.handler.IBannerHandler;
 import org.dromara.module.config.domain.bo.ConfigInfoBo;
 import org.dromara.module.config.domain.vo.ConfigInfoVo;
@@ -54,7 +56,10 @@ public class BannerHandlerImpl implements IBannerHandler {
         configInfoBo.setValue(JsonUtils.toJsonString(valueMap));
         ConfigInfoVo configInfoVo = configInfoService.queryOneByCode(ConfigInfoCodeConstants.BannerImageCode);
         if (ObjectUtils.isNull(configInfoVo)) {
-            return configInfoService.insertByBo(configInfoBo) ? 1 : 0;
+            Boolean flag = configInfoService.insertByBo(configInfoBo);
+            CacheUtils.evict(CacheNames.ConfigInfo, configInfoBo.getId()); // 程序上线没有数据时用户访问接口会设置为null，这里清除
+            CacheUtils.evict(CacheNames.ConfigInfo_Code, configInfoBo.getCode()); // 程序上线没有数据时用户访问接口会设置为null，这里清除
+            return flag ? 1 : 0;
         } else {
             configInfoBo.setId(configInfoVo.getId());
             configInfoBo.setVersion(bo.getVersion());

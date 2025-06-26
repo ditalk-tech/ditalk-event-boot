@@ -22,6 +22,7 @@ import org.dromara.module.config.mapper.ConfigInfoMapper;
 import org.dromara.module.config.service.IConfigInfoService;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -117,12 +118,12 @@ public class ConfigInfoServiceImpl implements IConfigInfoService {
      * @return 是否修改成功
      */
     @Override
-    @CacheEvict(cacheNames = CacheNames.ConfigInfo, key = "#bo.id")
+    @Caching(evict = {
+        @CacheEvict(cacheNames = CacheNames.ConfigInfo, key = "#bo.id"),
+        @CacheEvict(cacheNames = CacheNames.ConfigInfo_Code, key = "#bo.code")
+    })
     public Boolean updateByBo(ConfigInfoBo bo) {
         ConfigInfo update = MapstructUtils.convert(bo, ConfigInfo.class);
-        if (StringUtils.isNotBlank(update.getCode())) {
-            CacheUtils.evict(CacheNames.ConfigInfo_Code, update.getCode());
-        }
         validEntityBeforeSave(update);
         return baseMapper.updateById(update) > 0;
     }
