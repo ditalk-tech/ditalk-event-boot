@@ -79,7 +79,11 @@ public class EventInfoHandlerImpl implements IEventInfoHandler {
         List<EventMemberVo> eventMemberVoList = eventMemberService.queryList(eventMemberBo, pageQuery);
         // 获取活动ID
         List<Long> eventIds = eventMemberVoList.stream().map(EventMemberVo::getEventId).toList();
-        // 返回活动信息集合
-        return eventInfoService.queryListByIds(eventIds);
+        if (eventIds.isEmpty()) {
+            return List.of();
+        } else {
+            // 返回活动信息集合
+            return eventInfoService.queryListByIds(eventIds);
+        }
     }
 }
