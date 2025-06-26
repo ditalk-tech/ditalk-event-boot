@@ -35,13 +35,13 @@ public class MemberPhotoBo extends BaseEntity {
     /**
      * 照片Id
      */
-    @NotNull(message = "照片不能为空", groups = { AddGroup.class, EditGroup.class })
+    @NotNull(message = "照片不能为空", groups = { AddGroup.class })
     private Long photoId;
 
     /**
      * 会员ID
      */
-    @NotNull(message = "会员ID不能为空", groups = { AddGroup.class, EditGroup.class })
+    @NotNull(message = "会员ID不能为空", groups = { AddGroup.class })
     private Long memberId;
 
     /**
@@ -52,7 +52,7 @@ public class MemberPhotoBo extends BaseEntity {
     /**
      * 状态
      */
-    @NotBlank(message = "状态不能为空", groups = { AddGroup.class, EditGroup.class })
+    @NotBlank(message = "状态不能为空", groups = { AddGroup.class })
     private String state;
 
 

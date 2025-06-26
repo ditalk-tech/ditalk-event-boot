@@ -13,7 +13,6 @@ import org.dromara.common.enums.UniRoleKeyEnum;
 import org.dromara.common.idempotent.annotation.RepeatSubmit;
 import org.dromara.common.log.annotation.Log;
 import org.dromara.common.log.enums.BusinessType;
-import org.dromara.common.mybatis.core.page.IdPageQuery;
 import org.dromara.common.satoken.utils.LoginHelper;
 import org.dromara.common.web.core.BaseController;
 import org.dromara.module.member.domain.bo.MemberPhotoBo;
@@ -40,32 +39,30 @@ public class UniMemberPhotoController extends BaseController {
     /**
      * 查询指定用户的照片列表
      *
-     * @param pageQuery 分页参数
      * @return 列表
      */
     @SaCheckRole(value = {UniRoleKeyEnum.MP_WEIXIN_STR})
     @GetMapping("/list/{memberId}")
     public R<List<MemberPhotoVo>> listMember(@NotNull(message = "参数不能为空")
-                                       @PathVariable Long memberId, IdPageQuery pageQuery) {
+                                             @PathVariable Long memberId) {
         MemberPhotoBo memberPhotoBo = new MemberPhotoBo();
         memberPhotoBo.setMemberId(memberId);
         memberPhotoBo.setState(CommonConstants.AVAILABLE);
-        return R.ok(memberPhotoService.queryList(memberPhotoBo, pageQuery));
+        return R.ok(memberPhotoService.queryList(memberPhotoBo));
     }
 
     /**
      * 查询本人的照片列表
      *
-     * @param pageQuery 分页参数
      * @return 列表
      */
     @SaCheckRole(value = {UniRoleKeyEnum.MP_WEIXIN_STR})
     @GetMapping("/list/my")
-    public R<List<MemberPhotoVo>> listMy(IdPageQuery pageQuery) {
+    public R<List<MemberPhotoVo>> listMy() {
         MemberPhotoBo memberPhotoBo = new MemberPhotoBo();
         memberPhotoBo.setMemberId(LoginHelper.getUserId());
         memberPhotoBo.setState(CommonConstants.AVAILABLE);
-        return R.ok(memberPhotoService.queryList(memberPhotoBo, pageQuery));
+        return R.ok(memberPhotoService.queryList(memberPhotoBo));
     }
 
     /**
@@ -76,7 +73,7 @@ public class UniMemberPhotoController extends BaseController {
     @SaCheckRole(value = {UniRoleKeyEnum.MP_WEIXIN_STR})
     @GetMapping("/{id}")
     public R<MemberPhotoVo> getDetail(@NotNull(message = "主键不能为空")
-                                    @PathVariable Long id) {
+                                      @PathVariable Long id) {
         MemberPhotoVo memberPhotoVo = memberPhotoService.queryById(id);
         return R.ok(memberPhotoVo);
     }
