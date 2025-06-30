@@ -13,7 +13,7 @@ import org.dromara.handler.IBannerHandler;
 import org.dromara.module.config.domain.bo.ConfigInfoBo;
 import org.dromara.module.config.domain.vo.ConfigInfoVo;
 import org.dromara.module.config.service.IConfigInfoService;
-import org.dromara.server.controller.domain.bo.BannerImageBo;
+import org.dromara.app.domain.bo.BannerImageBo;
 import org.dromara.system.domain.vo.SysOssVo;
 import org.dromara.system.service.ISysOssService;
 import org.springframework.stereotype.Service;

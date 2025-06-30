@@ -1,6 +1,6 @@
 package org.dromara.handler;
 
-import org.dromara.server.controller.domain.bo.BannerImageBo;
+import org.dromara.app.domain.bo.BannerImageBo;
 
 /**
  * 首页横幅应用接口

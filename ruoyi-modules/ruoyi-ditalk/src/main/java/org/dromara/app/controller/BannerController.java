@@ -1,4 +1,4 @@
-package org.dromara.server.controller;
+package org.dromara.app.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import jakarta.validation.Valid;
@@ -12,7 +12,7 @@ import org.dromara.common.web.core.BaseController;
 import org.dromara.handler.IBannerHandler;
 import org.dromara.module.config.domain.vo.ConfigInfoVo;
 import org.dromara.module.config.service.IConfigInfoService;
-import org.dromara.server.controller.domain.bo.BannerImageBo;
+import org.dromara.app.domain.bo.BannerImageBo;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
