@@ -6,7 +6,7 @@
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4-blue.svg)]()
 [![JDK-17](https://img.shields.io/badge/JDK-17-green.svg)]()
 [![JDK-21](https://img.shields.io/badge/JDK-21-green.svg)]()
-[![RuoYi-Vue-Plus](https://img.shields.io/badge/RuoYi_Vue_Plus-5.4.0-success.svg)](https://gitee.com/dromara/RuoYi-Vue-Plus)
+[![RuoYi-Vue-Plus](https://img.shields.io/badge/RuoYi_Vue_Plus-5.4.1-success.svg)](https://gitee.com/dromara/RuoYi-Vue-Plus)
 
 ## 系统简介
 
